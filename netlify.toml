@@ -1,0 +1,19 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  # 26 seconds covers long coaching report generation (4096 tokens)
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+
+[functions."claude"]
+  timeout = 26
+
+[functions."elevenlabs"]
+  timeout = 26
