@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1457,7 +1458,7 @@ IMPORTANT RULES:
 async function startInterview() {
   if (!checkUsageLimit()) return;
 
-  if (!APP.settings.anthropicKey) {
+  if (!IS_HOSTED && !APP.settings.anthropicKey) {
     toast('The app is not configured yet — ask the owner to add API keys in Admin Settings.', 'error');
     return;
   }
@@ -1639,7 +1640,7 @@ async function speakText(text) {
     .replace(/_(.+?)_/g, '$1')          // _italic_ → italic
     .replace(/`(.+?)`/g, '$1');         // `code` → code
   if (!APP.interview.isActive) return;
-  if (APP.settings.elevenlabsKey) {
+  if (IS_HOSTED || APP.settings.elevenlabsKey) {
     try {
       await speakElevenLabs(text);
       return;
