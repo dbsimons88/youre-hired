@@ -51,7 +51,7 @@
     background: var(--surface);
     position: sticky; top: 0; z-index: 100;
   }
-  .nav-logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+  .nav-logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; cursor: pointer; }
   .nav-logo span { color: var(--text2); font-weight: 400; }
   .nav-right { display: flex; gap: 12px; align-items: center; }
   .nav-user { font-size: 13px; color: var(--text2); }
@@ -423,7 +423,7 @@
 ═══════════════════════════════════════════════════ -->
 <div id="screen-home" class="screen">
   <nav class="nav">
-    <div class="nav-logo">You're <span>Hired.</span></div>
+    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
     <div class="nav-right">
       <span class="nav-user" id="nav-username"></span>
       <button class="btn btn-ghost btn-sm" onclick="showScreen('settings')">⚙️ Settings</button>
@@ -449,7 +449,7 @@
       <div class="home-card" onclick="startIntakeWithType('phone')">
         <div class="home-card-icon">📱</div>
         <div class="duration"><span class="badge badge-accent">~8 min</span></div>
-        <h3>Phone Screen</h3>
+        <h3>Phone Screening</h3>
         <p>Quick recruiter call — fit, basics, interest level.</p>
       </div>
       <div class="home-card" onclick="startIntakeWithType('hiring')">
@@ -473,7 +473,7 @@
 ═══════════════════════════════════════════════════ -->
 <div id="screen-intake" class="screen">
   <nav class="nav">
-    <div class="nav-logo">You're <span>Hired.</span></div>
+    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
     <div class="nav-right">
       <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">← Back</button>
     </div>
@@ -584,7 +584,7 @@
         </div>
         <div id="job-url-panel">
           <input type="url" id="job-url" placeholder="https://...">
-          <p class="form-hint mt-8">We'll note the URL in the interviewer's context (note: the app can't fetch live URLs in offline mode — paste the text for best results)</p>
+          <p class="form-hint mt-8">Tip: paste the job description text directly for best results — the app can't open URLs to read them automatically.</p>
         </div>
         <div id="job-paste-panel" class="hidden">
           <textarea id="job-paste" placeholder="Paste the job description here..." style="min-height:120px"></textarea>
@@ -614,11 +614,11 @@
         </div>
       </div>
 
-      <div class="card" style="border-color:var(--yellow);background:rgba(245,158,11,0.08);">
+      <div class="card" id="mic-setup-card" style="border-color:var(--yellow);background:rgba(245,158,11,0.08);">
         <div style="font-size:14px;line-height:1.8;color:var(--text);">
           🎙️ <strong>One-time microphone setup (Chrome):</strong><br>
-          Chrome may ask for mic permission each time when running a local file. To fix this permanently:<br>
-          1. Click the <strong>🔒 lock icon</strong> in Chrome's address bar<br>
+          If Chrome keeps asking for mic permission, fix it permanently in seconds:<br>
+          1. Click the <strong>icon at the left of the address bar</strong> (may look like 🔒 or ⊙ or two small dots)<br>
           2. Click <strong>"Site settings"</strong><br>
           3. Set <strong>Microphone → Allow</strong><br>
           <span style="color:var(--text2);font-size:13px;">You only need to do this once.</span>
@@ -662,8 +662,11 @@
     <!-- Voice controls -->
     <div class="voice-controls">
       <div class="voice-status" id="voice-status">Waiting for interviewer...</div>
-      <button class="mic-btn disabled" id="mic-btn" onmousedown="startListening()" onmouseup="stopListening()" ontouchstart="startListening()" ontouchend="stopListening()">🎙️</button>
-      <div class="voice-hint">Hold <kbd style="background:var(--surface2);padding:1px 8px;border-radius:4px;font-size:12px;border:1px solid var(--border)">Space</kbd> to speak · Release when done</div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <button class="mic-btn disabled" id="mic-btn" onclick="toggleListening()">🎙️</button>
+        <button id="skip-btn" onclick="skipSpeaking()" style="display:none;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;">⏭ Skip</button>
+      </div>
+      <div class="voice-hint">Click mic to speak · Click again when done · or hold <kbd style="background:var(--surface2);padding:1px 8px;border-radius:4px;font-size:12px;border:1px solid var(--border)">Space</kbd></div>
     </div>
   </div>
 </div>
@@ -673,7 +676,7 @@
 ═══════════════════════════════════════════════════ -->
 <div id="screen-coaching" class="screen">
   <nav class="nav">
-    <div class="nav-logo">You're <span>Hired.</span></div>
+    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
     <div class="nav-right">
       <button class="btn btn-primary btn-sm" onclick="showScreen('home')">Start New Interview</button>
     </div>
@@ -705,7 +708,7 @@
 ═══════════════════════════════════════════════════ -->
 <div id="screen-history" class="screen">
   <nav class="nav">
-    <div class="nav-logo">You're <span>Hired.</span></div>
+    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
     <div class="nav-right">
       <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">← Home</button>
     </div>
@@ -723,7 +726,7 @@
 ═══════════════════════════════════════════════════ -->
 <div id="screen-settings" class="screen">
   <nav class="nav">
-    <div class="nav-logo">You're <span>Hired.</span></div>
+    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
     <div class="nav-right">
       <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">← Back</button>
     </div>
@@ -1329,6 +1332,13 @@ function buildIntakeReview() {
   const typeLabel = intakeInterviewType === 'phone' ? 'Phone Screen (~8 min)' : 'Hiring Manager Interview (~25 min)';
   const seniorityLabel = SENIORITY_LABELS[_selectedSeniority] || 'Entry Level';
 
+  // Hide mic setup card for users who have already done at least one interview
+  const micCard = el('mic-setup-card');
+  if (micCard) {
+    const hasInterviewed = localStorage.getItem('yh_has_interviewed');
+    micCard.style.display = hasInterviewed ? 'none' : '';
+  }
+
   el('intake-review').innerHTML = `
     <div class="card-title">Your Interview Setup</div>
     <div style="display:grid;gap:12px;">
@@ -1522,6 +1532,7 @@ async function getInterviewerResponse(candidateMessage) {
   setMicState('disabled');
   setVoiceStatus('speaking', `${APP.interview.interviewer.name} is responding...`);
   el('iv-avatar').classList.add('speaking');
+  el('skip-btn').style.display = 'inline-block';
 
   // Add thinking indicator
   const thinkId = addThinkingBubble();
@@ -1563,6 +1574,7 @@ async function getInterviewerResponse(candidateMessage) {
 
   el('iv-avatar').classList.remove('speaking');
   APP.interview.isSpeaking = false;
+  el('skip-btn').style.display = 'none';
 
   // Check again after speaking — user may have ended interview while interviewer was talking
   if (!APP.interview.isActive) return;
@@ -1634,11 +1646,7 @@ async function callClaude(systemPrompt, messages, maxTokens = 1024) {
 async function speakText(text) {
   // Strip markdown formatting that LLMs emit — asterisks, underscores, backticks
   // These render fine in chat but get read aloud literally by TTS ("asterisk sports asterisk")
-  text = text
-    .replace(/\*\*(.+?)\*\*/g, '$1')   // **bold** → bold
-    .replace(/\*(.+?)\*/g, '$1')        // *italic* → italic
-    .replace(/_(.+?)_/g, '$1')          // _italic_ → italic
-    .replace(/`(.+?)`/g, '$1');         // `code` → code
+  text = stripMarkdown(text);
   if (!APP.interview.isActive) return;
   if (IS_HOSTED || APP.settings.elevenlabsKey) {
     try {
@@ -1851,6 +1859,29 @@ function setMicState(state) {
   btn.textContent = '🎙️';
 }
 
+function toggleListening() {
+  if (!APP.interview.isActive || APP.interview.isSpeaking) return;
+  if (isListening) {
+    stopListening();
+  } else {
+    startListening();
+  }
+}
+
+function skipSpeaking() {
+  // Stop ElevenLabs audio if playing
+  if (_activeElevenLabsAudio) {
+    _activeElevenLabsAudio.pause();
+    _activeElevenLabsAudio.currentTime = 0;
+    _activeElevenLabsAudio = null;
+  }
+  // Stop browser TTS if playing
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
+  el('skip-btn').style.display = 'none';
+}
+
 function setVoiceStatus(type, text) {
   const s = el('voice-status');
   s.textContent = text;
@@ -1858,12 +1889,20 @@ function setVoiceStatus(type, text) {
 }
 
 // ── TRANSCRIPT UI ──────────────────────────────────────
+function stripMarkdown(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/_(.+?)_/g, '$1')
+    .replace(/`(.+?)`/g, '$1');
+}
+
 function addMessageToUI(role, content) {
   const div = document.createElement('div');
   div.className = `msg msg-${role === 'interviewer' ? 'interviewer' : 'candidate'}`;
   div.innerHTML = `
     <div class="msg-label">${role === 'interviewer' ? APP.interview.interviewer.name : (APP.currentUser?.name || 'You')}</div>
-    <div class="msg-bubble">${escHtml(content)}</div>
+    <div class="msg-bubble">${escHtml(stripMarkdown(content))}</div>
   `;
   el('iv-transcript').appendChild(div);
   div.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -1919,6 +1958,9 @@ async function endInterview() {
     APP.interview._audioStream.getTracks().forEach(t => t.stop());
     APP.interview._audioStream = null;
   }
+
+  // Mark that user has completed at least one interview — hides first-time mic setup tips
+  localStorage.setItem('yh_has_interviewed', '1');
 
   showScreen('coaching');
   await generateCoachingReport();
@@ -2125,7 +2167,7 @@ Provide your analysis in the following JSON format EXACTLY (no other text, no ma
     const raw = await callClaude(
       coachingPrompt,
       [{ role: 'user', content: 'Please analyze this interview and provide the JSON coaching report.' }],
-      4096  // coaching JSON with candidateAnswers can be large
+      2500  // reduced to stay within Netlify's 26s function timeout
     );
     // Strip markdown code fences if Claude wraps JSON in them
     const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
@@ -2138,17 +2180,30 @@ Provide your analysis in the following JSON format EXACTLY (no other text, no ma
     console.error('Coaching report failed:', e.message);
     _loaderTimers.forEach(clearTimeout);
     _loaderTimers = [];
+
+    // Save the session with transcript even though report failed — so history is preserved
+    const transcriptForStorageOnError = iv.transcript.map(({ audioBlob, ...rest }) => rest);
+    DB.saveSession(APP.currentUser.email, {
+      id: Date.now().toString(),
+      date: new Date().toISOString(),
+      interviewType: iv.type,
+      company: iv.company,
+      role: iv.role,
+      industry: iv.industry,
+      overallScore: null,
+      report: null,
+      transcript: transcriptForStorageOnError,
+      duration
+    });
+
     el('coaching-content').innerHTML = `
       <div class="card" style="border-color:var(--red);margin-bottom:16px;">
-        <p style="color:var(--red);font-size:13px;font-weight:700;margin-bottom:6px;">Coaching report error — details below:</p>
-        <p style="color:var(--text2);font-size:12px;font-family:monospace;white-space:pre-wrap;">${escHtml(e.message)}</p>
-      </div>
-      <p style="color:var(--text2);font-size:14px;line-height:1.7;">
-        Your interview was saved. Common causes:<br>
-        • API key ran out of credits — check <strong>console.anthropic.com</strong><br>
-        • Very short interview — try a longer session<br>
-        • Admin key not configured — check Admin Settings
-      </p>`;
+        <p style="color:var(--red);font-size:14px;font-weight:700;margin-bottom:8px;">⚠️ We couldn't generate your coaching report</p>
+        <p style="color:var(--text2);font-size:14px;line-height:1.7;">
+          This sometimes happens with longer interviews. Your transcript has been saved — try clicking <strong>"Practice Again"</strong> for a new session, or check back shortly.<br><br>
+          If this keeps happening, the interview may have been too short to analyze. Aim for at least 3–4 exchanges.
+        </p>
+      </div>`;
     report = null;
   }
 
@@ -2496,7 +2551,10 @@ function playbackAnswer(index) {
 function exportCoachingReport() {
   const sessions = DB.getSessions(APP.currentUser.email);
   const latest = sessions[0];
-  if (!latest) return;
+  if (!latest || !latest.report) {
+    toast('No report to download yet.', 'error');
+    return;
+  }
 
   const text = `YOU'RE HIRED — COACHING REPORT
 ================================
