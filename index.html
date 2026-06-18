@@ -2121,53 +2121,73 @@ async function generateCoachingReport() {
   const candidateName = APP.currentUser?.name?.split(' ')[0] || 'the candidate';
   const transcriptText = iv.transcript.map(t => `${t.role === 'interviewer' ? iv.interviewer.name : candidateName}: ${t.content}`).join('\n\n');
 
-  const coachingPrompt = `You are an expert interview coach giving personalized feedback directly to ${candidateName} after their mock interview.
+  // Warmup gets a lighter prompt — fewer questions means we need less output, and we want to stay
+  // well within Netlify's 26s function timeout. Full interviews get the complete report.
+  const isWarmup = iv.type === 'warmup';
 
-CRITICAL TONE RULES:
-- Address ${candidateName} directly using "you" and "your" — NEVER say "the candidate"
-- Write as if you are sitting across from them having a coaching conversation
-- Be warm, honest, and specific — like a great mentor, not a report generator
-- When you reference something they said, quote it briefly so they recognize the moment
-- When you mention any interview technique, acronym, or tactical concept (e.g. STAR, CAR, PAR, elevator pitch), briefly explain what it means in plain language immediately after — many candidates don't know these terms
+  const coachingPrompt = isWarmup
+    ? `You are an expert interview coach. Give ${candidateName} brief, direct feedback on their warmup practice.
+Address them as "you" directly. Be warm and specific. Keep ALL text fields SHORT — this is a quick warmup, not a full report.
 
-INTERVIEW TYPE: ${iv.type === 'phone' ? 'Phone Screen' : 'Hiring Manager Interview'}
-TARGET ROLE: ${iv.role || 'Not specified'}
-INDUSTRY: ${iv.industry || 'Not specified'}
-SENIORITY LEVEL: ${SENIORITY_LABELS[iv.seniority] || 'Entry Level'} — calibrate your feedback expectations to this level
-CANDIDATE NAME: ${candidateName}
+ROLE PRACTICED: ${iv.role || 'General'}
+CANDIDATE: ${candidateName}
 
 TRANSCRIPT:
 ${transcriptText}
 
-Provide your analysis in the following JSON format EXACTLY (no other text, no markdown):
+Respond in this JSON format ONLY (no other text, no markdown). Keep every string under 40 words:
 {
   "overallScore": <number 0-100>,
-  "scores": {
-    "communication": <0-100>,
-    "content": <0-100>,
-    "confidence": <0-100>,
-    "specificity": <0-100>
-  },
-  "summary": "<2-3 sentence personal assessment addressing ${candidateName} directly>",
-  "strengths": ["<specific strength phrased as direct feedback to ${candidateName}>", "<strength 2>", "<strength 3>"],
-  "improvements": ["<improvement phrased as direct coaching to ${candidateName} — explain any jargon>", "<improvement 2>", "<improvement 3>"],
+  "scores": { "communication": <0-100>, "content": <0-100>, "confidence": <0-100>, "specificity": <0-100> },
+  "summary": "<2 sentences max>",
+  "strengths": ["<1 sentence>", "<1 sentence>"],
+  "improvements": ["<1 sentence coaching tip>", "<1 sentence coaching tip>"],
+  "questionFeedback": [{ "question": "<brief>", "candidateAnswer": "<10 words max>", "feedback": "<1-2 sentences>", "modelAnswer": "<1-2 sentences>" }],
+  "nextSteps": ["<1 sentence>", "<1 sentence>"]
+}`
+    : `You are an expert interview coach giving personalized feedback directly to ${candidateName} after their mock interview.
+
+CRITICAL TONE RULES:
+- Address ${candidateName} directly using "you" and "your" — NEVER say "the candidate"
+- Be warm, honest, and specific — like a great mentor, not a report generator
+- Keep each feedback item concise — 1-2 sentences max per item
+- When you mention any interview technique (STAR, CAR, elevator pitch etc.), briefly explain it in plain language
+
+INTERVIEW TYPE: ${iv.type === 'phone' ? 'Phone Screen' : 'Hiring Manager Interview'}
+TARGET ROLE: ${iv.role || 'Not specified'}
+INDUSTRY: ${iv.industry || 'Not specified'}
+SENIORITY LEVEL: ${SENIORITY_LABELS[iv.seniority] || 'Entry Level'}
+CANDIDATE: ${candidateName}
+
+TRANSCRIPT:
+${transcriptText}
+
+Provide your analysis in this JSON format EXACTLY (no other text, no markdown):
+{
+  "overallScore": <number 0-100>,
+  "scores": { "communication": <0-100>, "content": <0-100>, "confidence": <0-100>, "specificity": <0-100> },
+  "summary": "<2-3 sentences addressing ${candidateName} directly>",
+  "strengths": ["<strength — 1-2 sentences>", "<strength 2>", "<strength 3>"],
+  "improvements": ["<coaching tip — 1-2 sentences>", "<tip 2>", "<tip 3>"],
   "questionFeedback": [
     {
-      "question": "<the interviewer's question, brief>",
-      "candidateAnswer": "<the exact or near-exact answer ${candidateName} gave>",
-      "feedback": "<direct coaching feedback to ${candidateName} about this specific answer — explain any techniques mentioned>",
-      "modelAnswer": "<2-3 sentence example of what a strong answer would look like for this specific question — show structure and key elements, keep it concise>"
+      "question": "<interviewer question, brief>",
+      "candidateAnswer": "<their answer in ~15 words>",
+      "feedback": "<1-2 sentence coaching note>",
+      "modelAnswer": "<2 sentence example of a strong answer>"
     }
   ],
-  "nextSteps": ["<actionable next step phrased directly to ${candidateName}>", "<next step 2>", "<next step 3>"]
+  "nextSteps": ["<actionable next step — 1 sentence>", "<step 2>", "<step 3>"]
 }`;
+
+  const maxTokens = isWarmup ? 900 : 1800;
 
   let report;
   try {
     const raw = await callClaude(
       coachingPrompt,
       [{ role: 'user', content: 'Please analyze this interview and provide the JSON coaching report.' }],
-      2500  // reduced to stay within Netlify's 26s function timeout
+      maxTokens
     );
     // Strip markdown code fences if Claude wraps JSON in them
     const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
