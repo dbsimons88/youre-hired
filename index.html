@@ -58,7 +58,7 @@
 
   /* ── BUTTONS ── */
   .btn {
-    display: inline-flex; align-items: center; gap: 8px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     padding: 10px 20px; border-radius: var(--radius-sm);
     font-size: 14px; font-weight: 600; cursor: pointer;
     border: none; transition: all 0.15s; text-decoration: none;
@@ -391,6 +391,9 @@
         <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
       </div>
       <button class="btn btn-primary btn-lg w-full" onclick="doLogin()">Sign In</button>
+      <div style="text-align:right;margin-top:8px;margin-bottom:4px;">
+        <a onclick="showForgotPassword()" style="font-size:12px;color:var(--text2);cursor:pointer;text-decoration:none;">Forgot your password?</a>
+      </div>
       <div class="login-toggle">
         Don't have an account? <a onclick="showRegister()">Create one</a>
       </div>
@@ -415,6 +418,63 @@
         Already have an account? <a onclick="showLogin()">Sign in</a>
       </div>
     </div>
+
+    <!-- VERIFY EMAIL FORM -->
+    <div id="form-verify" class="hidden">
+      <div style="font-size:22px;font-weight:700;margin-bottom:8px;">Check your email</div>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:24px;line-height:1.6;">
+        We sent a 6-digit code to <strong id="verify-email-display"></strong>. Enter it below to activate your account.
+      </p>
+      <div class="form-group">
+        <label>Verification Code</label>
+        <input type="text" id="verify-code" placeholder="000000" maxlength="6" autocomplete="one-time-code"
+          style="font-size:28px;letter-spacing:10px;text-align:center;font-family:monospace;"
+          onkeydown="if(event.key==='Enter') verifyEmail()">
+      </div>
+      <button class="btn btn-primary btn-lg w-full" onclick="verifyEmail()">Verify &amp; Create Account</button>
+      <div class="login-toggle" style="margin-top:16px;">
+        Didn't get it? <a onclick="resendVerifyCode()">Resend code</a>
+        &nbsp;·&nbsp; <a onclick="showRegister()">Go back</a>
+      </div>
+    </div>
+
+    <!-- FORGOT PASSWORD FORM -->
+    <div id="form-forgot" class="hidden">
+      <div style="font-size:22px;font-weight:700;margin-bottom:8px;">Reset your password</div>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:24px;">Enter your email and we'll send you a reset code.</p>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="forgot-email" placeholder="you@email.com" autocomplete="email"
+          onkeydown="if(event.key==='Enter') sendPasswordReset()">
+      </div>
+      <button class="btn btn-primary btn-lg w-full" onclick="sendPasswordReset()">Send Reset Code</button>
+      <div class="login-toggle">
+        <a onclick="showLogin()">← Back to sign in</a>
+      </div>
+    </div>
+
+    <!-- RESET CODE FORM -->
+    <div id="form-reset" class="hidden">
+      <div style="font-size:22px;font-weight:700;margin-bottom:8px;">Enter your reset code</div>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:24px;line-height:1.6;">
+        We sent a 6-digit code to <strong id="reset-email-display"></strong>.
+      </p>
+      <div class="form-group">
+        <label>Reset Code</label>
+        <input type="text" id="reset-code" placeholder="000000" maxlength="6" autocomplete="one-time-code"
+          style="font-size:28px;letter-spacing:10px;text-align:center;font-family:monospace;">
+      </div>
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" id="reset-new-password" placeholder="New password (min 6 chars)"
+          onkeydown="if(event.key==='Enter') confirmPasswordReset()">
+      </div>
+      <button class="btn btn-primary btn-lg w-full" onclick="confirmPasswordReset()">Reset Password</button>
+      <div class="login-toggle">
+        <a onclick="showForgotPassword()">← Back</a>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -473,10 +533,11 @@
 ═══════════════════════════════════════════════════ -->
 <div id="screen-intake" class="screen">
   <nav class="nav">
-    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
-    <div class="nav-right">
-      <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">← Back</button>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">🏠 Home</button>
+      <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
     </div>
+    <div class="nav-right"></div>
   </nav>
 
   <div class="content">
@@ -664,7 +725,6 @@
       <div class="voice-status" id="voice-status">Waiting for interviewer...</div>
       <div style="display:flex;align-items:center;gap:16px;">
         <button class="mic-btn disabled" id="mic-btn" onclick="toggleListening()">🎙️</button>
-        <button id="skip-btn" onclick="skipSpeaking()" style="display:none;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;">⏭ Skip</button>
       </div>
       <div class="voice-hint">Click mic to speak · Click again when done · or hold <kbd style="background:var(--surface2);padding:1px 8px;border-radius:4px;font-size:12px;border:1px solid var(--border)">Space</kbd></div>
     </div>
@@ -695,10 +755,10 @@
     <hr class="divider">
 
     <div style="display:flex;gap:12px;flex-wrap:wrap;">
-      <button class="btn btn-primary" onclick="showScreen('home')">Practice Again</button>
+      <button class="btn btn-primary" onclick="showScreen('home')">🏠 Return Home</button>
       <button class="btn btn-secondary" onclick="showScreen('history')">View Session History</button>
-      <button class="btn btn-ghost" onclick="exportCoachingReport()">📄 Download Report</button>
-      <button class="btn btn-ghost" onclick="emailCoachingReport()">✉️ Email Report</button>
+      <button class="btn btn-ghost" id="btn-download-report" onclick="exportCoachingReport()" disabled>📄 Download Report</button>
+      <button class="btn btn-ghost" id="btn-email-report" onclick="emailCoachingReport()" disabled>✉️ Email Report</button>
     </div>
   </div>
 </div>
@@ -744,7 +804,7 @@
           <input type="text" id="settings-name" placeholder="Your name">
         </div>
         <div class="form-group mb-0">
-          <label>Browser Fallback Voice <span style="font-weight:400;color:var(--text3)">(used if ElevenLabs unavailable)</span></label>
+          <label>Backup Voice <span style="font-weight:400;color:var(--text3)">(used if AI voice is unavailable)</span></label>
           <select id="settings-browser-voice">
             <option value="">Loading voices...</option>
           </select>
@@ -780,7 +840,7 @@
             <input type="password" id="admin-pw-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter') unlockAdmin()">
             <button class="btn btn-primary btn-sm" onclick="unlockAdmin()">Unlock</button>
           </div>
-          <p class="form-hint">Default password on first setup: <strong>admin</strong> — change it below once unlocked.</p>
+          <p class="form-hint">Contact the site owner if you need admin access.</p>
         </div>
       </div>
 
@@ -979,7 +1039,7 @@ function doLogin() {
   afterLogin();
 }
 
-function doRegister() {
+async function doRegister() {
   const name = el('reg-name').value.trim();
   const email = el('reg-email').value.trim().toLowerCase();
   const pass = el('reg-password').value;
@@ -991,12 +1051,34 @@ function doRegister() {
   const users = DB.getUsers();
   if (users[email]) return showLoginError('An account with that email already exists.');
 
-  users[email] = { name, password: btoa(pass) };
-  DB.setUsers(users);
-  APP.currentUser = { email, name };
-  DB.set('pw_last_user', email);
-  loadUserSettings();
-  afterLogin();
+  if (IS_HOSTED) {
+    // Hosted: require email verification
+    el('login-error').style.display = 'none';
+    const btn = document.querySelector('#form-register .btn-primary');
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending code…'; }
+    try {
+      const res = await fetch('/.netlify/functions/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'send-verify', email }),
+      });
+      const data = await res.json();
+      if (btn) { btn.disabled = false; btn.textContent = 'Create Account'; }
+      if (data.error === 'already-exists') return showLoginError('An account with that email already exists.');
+      if (data.error === 'email-not-configured') return showLoginError('Email service not configured. Contact the admin.');
+      if (!data.ok) return showLoginError('Could not send verification email. Please try again.');
+      _pendingReg = { email, name, pass };
+      el('verify-email-display').textContent = email;
+      el('verify-code').value = '';
+      showLoginForm('form-verify');
+    } catch (e) {
+      if (btn) { btn.disabled = false; btn.textContent = 'Create Account'; }
+      showLoginError('Network error. Please try again.');
+    }
+  } else {
+    // Localhost dev: skip verification
+    createAccountDirectly(email, name, pass);
+  }
 }
 
 function afterLogin() {
@@ -1010,6 +1092,7 @@ function afterLogin() {
 function doLogout() {
   APP.currentUser = null;
   showScreen('login');
+  showLogin(); // always land on sign-in form, never register
 }
 
 function showLoginError(msg) {
@@ -1032,15 +1115,36 @@ function loadUserSettings() {
 }
 
 function showLogin() {
-  el('form-login').classList.remove('hidden');
-  el('form-register').classList.add('hidden');
+  // Clear register fields so they're never pre-filled after logout
+  el('reg-name').value = '';
+  el('reg-email').value = '';
+  el('reg-password').value = '';
+  _pendingReg = null;
+  _pendingReset = null;
   el('login-error').style.display = 'none';
+  showLoginForm('form-login');
 }
 
 function showRegister() {
-  el('form-login').classList.add('hidden');
-  el('form-register').classList.remove('hidden');
+  el('reg-name').value = '';
+  el('reg-email').value = '';
+  el('reg-password').value = '';
   el('login-error').style.display = 'none';
+  showLoginForm('form-register');
+}
+
+function showForgotPassword() {
+  el('forgot-email').value = '';
+  el('login-error').style.display = 'none';
+  showLoginForm('form-forgot');
+}
+
+// Helper: show exactly one form panel, hide the rest
+function showLoginForm(activeId) {
+  ['form-login', 'form-register', 'form-verify', 'form-forgot', 'form-reset'].forEach(id => {
+    const elem = el(id);
+    if (elem) elem.classList.toggle('hidden', id !== activeId);
+  });
 }
 
 // ── SCREEN ROUTING ─────────────────────────────────────
@@ -1050,6 +1154,7 @@ function showScreen(name) {
 
   if (name === 'history') renderHistory();
   if (name === 'home') renderHome();
+  if (name === 'settings') renderUsageCard(); // always show fresh usage count
 }
 
 // ── HOME ───────────────────────────────────────────────
@@ -1069,7 +1174,7 @@ function renderHome() {
 function renderSessionItem(s) {
   return `<div class="history-item" onclick="showSessionDetail('${s.id}')">
     <div class="history-info">
-      <h4>${s.role || 'General Interview'} — ${s.interviewType === 'phone' ? 'Phone Screen' : 'Hiring Manager'}</h4>
+      <h4>${s.role || 'General Interview'} — ${s.interviewType === 'phone' ? 'Phone Screen' : s.interviewType === 'warmup' ? 'Quick Warmup' : 'Hiring Manager'}</h4>
       <p>${s.company} · ${s.industry || 'General'}</p>
     </div>
     <div class="history-meta">
@@ -1532,7 +1637,6 @@ async function getInterviewerResponse(candidateMessage) {
   setMicState('disabled');
   setVoiceStatus('speaking', `${APP.interview.interviewer.name} is responding...`);
   el('iv-avatar').classList.add('speaking');
-  el('skip-btn').style.display = 'inline-block';
 
   // Add thinking indicator
   const thinkId = addThinkingBubble();
@@ -1574,7 +1678,6 @@ async function getInterviewerResponse(candidateMessage) {
 
   el('iv-avatar').classList.remove('speaking');
   APP.interview.isSpeaking = false;
-  el('skip-btn').style.display = 'none';
 
   // Check again after speaking — user may have ended interview while interviewer was talking
   if (!APP.interview.isActive) return;
@@ -1593,7 +1696,7 @@ async function getInterviewerResponse(candidateMessage) {
 // On localhost, fall back to direct browser calls (requires key in Admin panel).
 const IS_HOSTED = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
 
-async function callClaude(systemPrompt, messages, maxTokens = 1024) {
+async function callClaude(systemPrompt, messages, maxTokens = 1024, model = null) {
   // If no messages yet, send a single user message to trigger the first response
   const apiMessages = messages.length === 0
     ? [{ role: 'user', content: 'Please begin the interview.' }]
@@ -1601,10 +1704,12 @@ async function callClaude(systemPrompt, messages, maxTokens = 1024) {
 
   if (IS_HOSTED) {
     // Hosted: proxy through Netlify serverless function (key stays server-side)
+    const body = { systemPrompt, messages: apiMessages, maxTokens };
+    if (model) body.model = model; // only send if explicitly specified
     const res = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ systemPrompt, messages: apiMessages, maxTokens }),
+      body: JSON.stringify(body),
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
@@ -1624,7 +1729,7 @@ async function callClaude(systemPrompt, messages, maxTokens = 1024) {
       'anthropic-dangerous-direct-browser-access': 'true',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
+      model: model || 'claude-sonnet-4-6',
       max_tokens: maxTokens,
       system: systemPrompt,
       messages: apiMessages,
@@ -1868,19 +1973,6 @@ function toggleListening() {
   }
 }
 
-function skipSpeaking() {
-  // Stop ElevenLabs audio if playing
-  if (_activeElevenLabsAudio) {
-    _activeElevenLabsAudio.pause();
-    _activeElevenLabsAudio.currentTime = 0;
-    _activeElevenLabsAudio = null;
-  }
-  // Stop browser TTS if playing
-  if (window.speechSynthesis) {
-    window.speechSynthesis.cancel();
-  }
-  el('skip-btn').style.display = 'none';
-}
 
 function setVoiceStatus(type, text) {
   const s = el('voice-status');
@@ -1961,6 +2053,14 @@ async function endInterview() {
 
   // Mark that user has completed at least one interview — hides first-time mic setup tips
   localStorage.setItem('yh_has_interviewed', '1');
+
+  // If user ended before answering anything, skip the report — nothing to analyze
+  const answersGiven = APP.interview.transcript.filter(t => t.role === 'candidate');
+  if (answersGiven.length === 0) {
+    showScreen('home');
+    toast('Session ended — no answers to report on. Try again when you\'re ready!', '');
+    return;
+  }
 
   showScreen('coaching');
   await generateCoachingReport();
@@ -2115,6 +2215,16 @@ async function generateCoachingReport() {
 
   const ivTypeLabel = { phone: 'Phone Screen', hiring: 'Hiring Manager Interview', warmup: 'Quick Warmup' }[iv.type] || 'Interview';
   el('coaching-meta').textContent = `${ivTypeLabel} · ${iv.company} · ${duration}`;
+
+  // Clear any stale scores from a previous session
+  el('score-row').innerHTML = '';
+
+  // Disable download/email until report is ready
+  const dlBtn = el('btn-download-report');
+  const emlBtn = el('btn-email-report');
+  if (dlBtn) dlBtn.disabled = true;
+  if (emlBtn) emlBtn.disabled = true;
+
   showCoachingLoader();
   startLoaderTimers();
 
@@ -2180,14 +2290,19 @@ Provide your analysis in this JSON format EXACTLY (no other text, no markdown):
   "nextSteps": ["<actionable next step — 1 sentence>", "<step 2>", "<step 3>"]
 }`;
 
-  const maxTokens = isWarmup ? 900 : 1800;
+  // Haiku is 5-8x faster than Sonnet and handles structured JSON well.
+  // This keeps coaching report generation comfortably under Netlify's 26s timeout
+  // even for long interviews with many question-feedback entries.
+  const coachingModel = 'claude-haiku-4-5-20251001';
+  const maxTokens = isWarmup ? 900 : 3500;
 
   let report;
   try {
     const raw = await callClaude(
       coachingPrompt,
       [{ role: 'user', content: 'Please analyze this interview and provide the JSON coaching report.' }],
-      maxTokens
+      maxTokens,
+      coachingModel
     );
     // Strip markdown code fences if Claude wraps JSON in them
     const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
@@ -2216,13 +2331,15 @@ Provide your analysis in this JSON format EXACTLY (no other text, no markdown):
       duration
     });
 
+    const candidateTurns = (iv.transcript || []).filter(t => t.role === 'candidate').length;
+    const errorDetail = candidateTurns < 3
+      ? `Your session only had <strong>${candidateTurns} answer${candidateTurns !== 1 ? 's' : ''}</strong> — there wasn't enough to build a report from. Aim for at least 3–4 exchanges before ending.`
+      : `This can happen when the network is slow or the interview ran long. Your transcript has been saved — try starting a new session, and it should work fine.`;
+
     el('coaching-content').innerHTML = `
       <div class="card" style="border-color:var(--red);margin-bottom:16px;">
         <p style="color:var(--red);font-size:14px;font-weight:700;margin-bottom:8px;">⚠️ We couldn't generate your coaching report</p>
-        <p style="color:var(--text2);font-size:14px;line-height:1.7;">
-          This sometimes happens with longer interviews. Your transcript has been saved — try clicking <strong>"Practice Again"</strong> for a new session, or check back shortly.<br><br>
-          If this keeps happening, the interview may have been too short to analyze. Aim for at least 3–4 exchanges.
-        </p>
+        <p style="color:var(--text2);font-size:14px;line-height:1.7;">${errorDetail}</p>
       </div>`;
     report = null;
   }
@@ -2321,6 +2438,12 @@ Provide your analysis in this JSON format EXACTLY (no other text, no markdown):
       ${report.nextSteps.map(s => `<div class="coaching-item">${escHtml(s)}</div>`).join('')}
     </div>
   `;
+
+  // Enable download and email buttons now that report is ready
+  const dlBtn2 = el('btn-download-report');
+  const emlBtn2 = el('btn-email-report');
+  if (dlBtn2) dlBtn2.disabled = false;
+  if (emlBtn2) emlBtn2.disabled = false;
 }
 
 function toggleModelAnswer(index) {
@@ -2353,7 +2476,7 @@ function showSessionDetail(id) {
 
   el('modal-session-title').textContent = `${session.role || 'Interview'} — ${formatDate(session.date)}`;
   el('modal-session-body').innerHTML = `
-    <div style="color:var(--text2);font-size:13px;margin-bottom:16px;">${session.company} · ${session.interviewType === 'phone' ? 'Phone Screen' : 'Hiring Manager'} · ${session.duration}</div>
+    <div style="color:var(--text2);font-size:13px;margin-bottom:16px;">${session.company} · ${session.interviewType === 'phone' ? 'Phone Screen' : session.interviewType === 'warmup' ? 'Quick Warmup' : 'Hiring Manager'} · ${session.duration}</div>
     ${session.report ? `
       <div class="score-row" style="justify-content:flex-start;margin-bottom:16px;">
         <div class="score-card"><div class="score-num">${session.overallScore}</div><div class="score-label">Overall</div></div>
@@ -2623,6 +2746,7 @@ function emailCoachingReport() {
 
   const subject = encodeURIComponent(`You're Hired. — Coaching Report (${latest.role || 'General'}, ${formatDate(latest.date)})`);
 
+  // Keep body concise — Outlook Web and some clients fail on URLs > ~2000 chars
   const body = encodeURIComponent(
 `YOU'RE HIRED — COACHING REPORT
 ================================
@@ -2642,25 +2766,157 @@ ${(r.strengths || []).map((s,i) => `${i+1}. ${s}`).join('\n')}
 AREAS TO IMPROVE
 ${(r.improvements || []).map((s,i) => `${i+1}. ${s}`).join('\n')}
 
-QUESTION-BY-QUESTION FEEDBACK
-${(r.questionFeedback || []).map((q,i) => `Q${i+1}: ${q.question}\nYour answer: ${q.candidateAnswer || '(not recorded)'}\nFeedback: ${q.feedback}\nModel answer: ${q.modelAnswer || ''}`).join('\n\n')}
-
 NEXT STEPS
 ${(r.nextSteps || []).map((s,i) => `${i+1}. ${s}`).join('\n')}
 
 ---
-NOTE: Voice playback of your recorded answers is only available inside the You're Hired. app.
-To listen back to your answers, log in at the app and open this session from Session History.
+To review full question-by-question feedback and listen to your recorded answers,
+log back into the You're Hired. app and open this session from Session History.
 ---
 Powered by You're Hired. — Practice like it's real. Land the job for real.`
   );
 
-  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  // Use window.open to avoid navigating away from the report page.
+  // Some email clients (e.g. Outlook Web) fail on very long mailto URLs — keep body concise.
+  window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
 }
 
 // ── MODAL ──────────────────────────────────────────────
 function openModal(id) { el(id).classList.add('open'); }
 function closeModal(id) { el(id).classList.remove('open'); }
+
+// ── EMAIL VERIFICATION & PASSWORD RESET ────────────────
+let _pendingReg = null;   // {email, name, pass} — held while user enters verify code
+let _pendingReset = null; // {email} — held while user enters reset code
+
+function createAccountDirectly(email, name, pass) {
+  const users = DB.getUsers();
+  users[email] = { name, password: btoa(pass) };
+  DB.setUsers(users);
+  APP.currentUser = { email, name };
+  DB.set('pw_last_user', email);
+  loadUserSettings();
+  afterLogin();
+}
+
+async function verifyEmail() {
+  if (!_pendingReg) return showLoginError('Registration session expired. Please try again.');
+  const code = (el('verify-code').value || '').trim();
+  if (!/^\d{6}$/.test(code)) return showLoginError('Enter the 6-digit code from your email.');
+
+  el('login-error').style.display = 'none';
+  const btn = document.querySelector('#form-verify .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Verifying…'; }
+
+  try {
+    const res = await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'check-verify', email: _pendingReg.email, code }),
+    });
+    const data = await res.json();
+    if (btn) { btn.disabled = false; btn.textContent = 'Verify & Create Account'; }
+
+    if (data.error === 'no-pending') return showLoginError('Verification expired. Please register again.');
+    if (data.error === 'expired') return showLoginError('Code expired. Please register again.');
+    if (data.error === 'wrong-code') return showLoginError('Incorrect code. Please try again.');
+    if (!data.ok) return showLoginError('Verification failed. Please try again.');
+
+    const { email, name, pass } = _pendingReg;
+    _pendingReg = null;
+    createAccountDirectly(email, name, pass);
+  } catch (e) {
+    if (btn) { btn.disabled = false; btn.textContent = 'Verify & Create Account'; }
+    showLoginError('Network error. Please try again.');
+  }
+}
+
+async function resendVerifyCode() {
+  if (!_pendingReg) return;
+  try {
+    await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'send-verify', email: _pendingReg.email }),
+    });
+    toast('New code sent!', 'success');
+  } catch (e) {
+    showLoginError('Could not resend code. Please try again.');
+  }
+}
+
+async function sendPasswordReset() {
+  const email = (el('forgot-email').value || '').trim().toLowerCase();
+  if (!email || !email.includes('@')) return showLoginError('Please enter a valid email address.');
+
+  if (!IS_HOSTED) {
+    return showLoginError('Password reset requires the hosted version. Contact the admin for help resetting your password manually.');
+  }
+
+  el('login-error').style.display = 'none';
+  const btn = document.querySelector('#form-forgot .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  try {
+    await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'send-reset', email }),
+    });
+    if (btn) { btn.disabled = false; btn.textContent = 'Send Reset Code'; }
+    // Always proceed — don't reveal whether the email exists
+    _pendingReset = { email };
+    el('reset-email-display').textContent = email;
+    el('reset-code').value = '';
+    el('reset-new-password').value = '';
+    showLoginForm('form-reset');
+  } catch (e) {
+    if (btn) { btn.disabled = false; btn.textContent = 'Send Reset Code'; }
+    showLoginError('Network error. Please try again.');
+  }
+}
+
+async function confirmPasswordReset() {
+  if (!_pendingReset) return showLoginError('Reset session expired. Please try again.');
+  const code = (el('reset-code').value || '').trim();
+  const newPass = el('reset-new-password').value;
+
+  if (!/^\d{6}$/.test(code)) return showLoginError('Enter the 6-digit code from your email.');
+  if (newPass.length < 6) return showLoginError('Password must be at least 6 characters.');
+
+  el('login-error').style.display = 'none';
+  const btn = document.querySelector('#form-reset .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Resetting…'; }
+
+  try {
+    const res = await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'check-reset', email: _pendingReset.email, code }),
+    });
+    const data = await res.json();
+    if (btn) { btn.disabled = false; btn.textContent = 'Reset Password'; }
+
+    if (data.error === 'no-pending') return showLoginError('Reset expired. Please request a new code.');
+    if (data.error === 'expired') return showLoginError('Code expired. Please request a new one.');
+    if (data.error === 'wrong-code') return showLoginError('Incorrect code. Please try again.');
+    if (!data.ok) return showLoginError('Reset failed. Please try again.');
+
+    // Update password in localStorage
+    const email = _pendingReset.email;
+    _pendingReset = null;
+    const users = DB.getUsers();
+    if (users[email]) {
+      users[email].password = btoa(newPass);
+      DB.setUsers(users);
+    }
+    toast('Password reset! Please sign in with your new password.', 'success');
+    showLogin();
+  } catch (e) {
+    if (btn) { btn.disabled = false; btn.textContent = 'Reset Password'; }
+    showLoginError('Network error. Please try again.');
+  }
+}
 
 // ── TOAST ──────────────────────────────────────────────
 let toastTimeout;
@@ -2682,6 +2938,13 @@ function formatDate(iso) {
 
 // ── INIT ───────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  // Click outside a modal overlay to close it
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal(overlay.id);
+    });
+  });
+
   // Show browser warning for Safari / Firefox — Web Speech API not supported
   const ua = navigator.userAgent;
   const isChrome  = /chrome|chromium|crios/i.test(ua) && !/edg/i.test(ua);
@@ -2693,6 +2956,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   updatePersonalityLabel();
+
+  // Always start with the sign-in form visible (never the register form)
+  showLogin();
 
   // Check for existing session (simple auto-login if we remember the user)
   const lastUser = DB.get('pw_last_user');
