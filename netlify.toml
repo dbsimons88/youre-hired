@@ -17,3 +17,6 @@
 
 [functions."elevenlabs"]
   timeout = 26
+
+[functions."send-email"]
+  timeout = 10
