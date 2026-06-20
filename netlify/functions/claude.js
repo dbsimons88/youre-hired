@@ -4,12 +4,15 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { systemPrompt, messages, maxTokens } = JSON.parse(event.body);
+    const { systemPrompt, messages, maxTokens, model } = JSON.parse(event.body);
 
     // Build message array — if empty, send a bootstrap user message
     const apiMessages = (!messages || messages.length === 0)
       ? [{ role: 'user', content: 'Begin the interview.' }]
       : messages;
+
+    // Default to Sonnet for interviews; caller can pass Haiku for coaching reports
+    const selectedModel = model || 'claude-sonnet-4-6';
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -19,7 +22,7 @@ exports.handler = async (event) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: selectedModel,
         max_tokens: maxTokens || 1024,
         system: systemPrompt,
         messages: apiMessages,
@@ -35,6 +38,20 @@ exports.handler = async (event) => {
     }
 
     const data = await response.json();
+    const text = data.content?.[0]?.text ?? '';
+
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: err.message }),
+    };
+  }
+};    const data = await response.json();
     const text = data.content?.[0]?.text ?? '';
 
     return {
