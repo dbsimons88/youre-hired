@@ -20,3 +20,8 @@
 
 [functions."send-email"]
   timeout = 10
+  
+[functions]
+  # 26 seconds covers long coaching report generation (4096 tokens)
+  node_bundler = "esbuild"
+  external_node_modules = ["@netlify/blobs"]
