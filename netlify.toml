@@ -3,6 +3,7 @@
   functions = "netlify/functions"
 
 [functions]
+  # 26 seconds covers long coaching report generation (4096 tokens)
   node_bundler = "esbuild"
 
 [[headers]]
@@ -18,4 +19,16 @@
   timeout = 26
 
 [functions."send-email"]
+  timeout = 10
+
+[functions."fetch-url"]
+  timeout = 12
+
+[functions."stripe-checkout"]
+  timeout = 10
+
+[functions."stripe-verify"]
+  timeout = 10
+
+[functions."stripe-webhook"]
   timeout = 10
