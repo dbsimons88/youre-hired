@@ -51,18 +51,4 @@ exports.handler = async (event) => {
       body: JSON.stringify({ error: err.message }),
     };
   }
-};    const data = await response.json();
-    const text = data.content?.[0]?.text ?? '';
-
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text }),
-    };
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
-    };
-  }
 };
