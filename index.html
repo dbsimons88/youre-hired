@@ -392,6 +392,3136 @@
         <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
       </div>
       <button class="btn btn-primary btn-lg w-full" onclick="doLogin()">Sign In</button>
+      <div style="text-align:right;margin-top:8px;margin-bottom:16px;">
+        <a onclick="showForgotPassword()" style="font-size:12px;color:var(--text2);cursor:pointer;text-decoration:none;">Forgot your password?</a>
+      </div>
+      <div class="login-toggle" style="font-size:15px;">
+        <a onclick="showRegister()" style="font-weight:600;">Create New Account</a>
+      </div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="form-register" class="hidden">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="reg-name" placeholder="First name">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="reg-email" placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="reg-password" placeholder="Create a password (min 6 chars)">
+      </div>
+      <button class="btn btn-primary btn-lg w-full" onclick="doRegister()">Create Account</button>
+      <div class="login-toggle">
+        Already have an account? <a onclick="showLogin()">Sign in</a>
+      </div>
+    </div>
+
+    <!-- VERIFY EMAIL FORM -->
+    <div id="form-verify" class="hidden">
+      <div style="font-size:22px;font-weight:700;margin-bottom:8px;">Check your email</div>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:24px;line-height:1.6;">
+        We sent a 6-digit code to <strong id="verify-email-display"></strong>. Enter it below to activate your account.
+      </p>
+      <div class="form-group">
+        <label>Verification Code</label>
+        <input type="text" id="verify-code" placeholder="000000" maxlength="6" autocomplete="one-time-code"
+          style="font-size:28px;letter-spacing:10px;text-align:center;font-family:monospace;"
+          onkeydown="if(event.key==='Enter') verifyEmail()">
+      </div>
+      <button class="btn btn-primary btn-lg w-full" onclick="verifyEmail()">Verify &amp; Create Account</button>
+      <div class="login-toggle" style="margin-top:16px;">
+        Didn't get it? <a onclick="resendVerifyCode()">Resend code</a>
+        &nbsp;·&nbsp; <a onclick="showRegister()">Go back</a>
+      </div>
+      <p style="font-size:12px;color:var(--text3);text-align:center;margin-top:10px;margin-bottom:0;">
+        Can't find it? Check your <strong>junk or spam folder</strong> — verification emails sometimes end up there.
+      </p>
+    </div>
+
+    <!-- FORGOT PASSWORD FORM -->
+    <div id="form-forgot" class="hidden">
+      <div style="font-size:22px;font-weight:700;margin-bottom:8px;">Reset your password</div>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:24px;">Enter your email and we'll send you a reset code.</p>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="forgot-email" placeholder="you@email.com" autocomplete="email"
+          onkeydown="if(event.key==='Enter') sendPasswordReset()">
+      </div>
+      <button class="btn btn-primary btn-lg w-full" onclick="sendPasswordReset()">Send Reset Code</button>
+      <div class="login-toggle">
+        <a onclick="showLogin()">← Back to sign in</a>
+      </div>
+    </div>
+
+    <!-- RESET CODE FORM -->
+    <div id="form-reset" class="hidden">
+      <div style="font-size:22px;font-weight:700;margin-bottom:8px;">Enter your reset code</div>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:24px;line-height:1.6;">
+        We sent a 6-digit code to <strong id="reset-email-display"></strong>.
+      </p>
+      <div class="form-group">
+        <label>Reset Code</label>
+        <input type="text" id="reset-code" placeholder="000000" maxlength="6" autocomplete="one-time-code"
+          style="font-size:28px;letter-spacing:10px;text-align:center;font-family:monospace;">
+      </div>
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" id="reset-new-password" placeholder="New password (min 6 chars)"
+          onkeydown="if(event.key==='Enter') confirmPasswordReset()">
+      </div>
+      <button class="btn btn-primary btn-lg w-full" onclick="confirmPasswordReset()">Reset Password</button>
+      <div class="login-toggle">
+        <a onclick="showForgotPassword()">← Back</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN: HOME
+═══════════════════════════════════════════════════ -->
+<div id="screen-home" class="screen">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
+    <div class="nav-right">
+      <span class="nav-user" id="nav-username"></span>
+      <button class="btn btn-ghost btn-sm" onclick="showScreen('settings')">⚙️ Settings</button>
+      <button class="btn btn-ghost btn-sm" onclick="doLogout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="home-hero">
+      <h1>The real thing is easier<br><span>when you've already done this.</span></h1>
+      <p>A real conversation. Real follow-ups. Real feedback — right down to the words you overuse.</p>
+      <button class="btn btn-primary btn-lg" onclick="startIntake()">Start New Interview</button>
+    </div>
+
+    <p style="font-size:13px;color:var(--text3);text-align:center;margin:-16px 0 20px;letter-spacing:0.01em;">Not flashcards. No gimmicks. A conversation — with exact, detailed coaching.</p>
+    <div class="home-cards" style="grid-template-columns:1fr 1fr 1fr;">
+      <div class="home-card" onclick="startWarmup()">
+        <div class="home-card-icon">⚡</div>
+        <div class="duration"><span class="badge badge-accent">~3 min</span></div>
+        <h3>Quick Warmup</h3>
+        <p>2–3 questions, no setup needed. Shake off the rust before a real interview.</p>
+      </div>
+      <div class="home-card" onclick="startIntakeWithType('phone')">
+        <div class="home-card-icon">📱</div>
+        <div class="duration"><span class="badge badge-accent">~8 min</span></div>
+        <h3>Phone Screening</h3>
+        <p>Quick recruiter call — fit, basics, interest level.</p>
+      </div>
+      <div class="home-card" onclick="startIntakeWithType('hiring')">
+        <div class="home-card-icon">🧑‍💼</div>
+        <div class="duration"><span class="badge badge-accent">~25 min</span></div>
+        <h3>Hiring Manager Interview</h3>
+        <p>Full behavioral interview with situational questions and deep follow-ups.</p>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div style="font-size:16px;font-weight:700;">Recent Sessions</div>
+      <button class="btn btn-ghost btn-sm" onclick="showScreen('history')">View All</button>
+    </div>
+    <div id="home-recent"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN: INTAKE
+═══════════════════════════════════════════════════ -->
+<div id="screen-intake" class="screen">
+  <nav class="nav">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">🏠 Home</button>
+      <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
+    </div>
+    <div class="nav-right"></div>
+  </nav>
+
+  <div class="content">
+    <div class="intake-steps">
+      <div class="intake-step active" id="istep-0"></div>
+      <div class="intake-step" id="istep-1"></div>
+      <div class="intake-step" id="istep-2"></div>
+    </div>
+
+    <!-- STEP 0: Interview Type -->
+    <div id="intake-step-0">
+      <div class="page-title">What kind of interview?</div>
+      <div class="page-sub">Choose the format, then customize the interviewer's style.</div>
+
+      <div class="home-cards" style="margin-bottom:24px;">
+        <div class="home-card" id="type-phone" onclick="selectType('phone')">
+          <div class="home-card-icon">📱</div>
+          <h3>Phone Screen</h3>
+          <p>~8 min recruiter call. Fit, background, interest in the role.</p>
+        </div>
+        <div class="home-card" id="type-hiring" onclick="selectType('hiring')">
+          <div class="home-card-icon">🧑‍💼</div>
+          <h3>Hiring Manager Interview</h3>
+          <p>~25 min behavioral interview with situational & follow-up questions.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Interviewer Style</div>
+        <div class="slider-wrap">
+          <input type="range" id="personality-slider" min="1" max="5" value="3" oninput="updatePersonalityLabel()">
+          <div class="slider-labels">
+            <span>Warm &amp; Easy</span>
+            <span>Balanced</span>
+            <span>Tough &amp; Direct</span>
+          </div>
+        </div>
+        <div class="personality-display" id="personality-display">Balanced — professional and fair</div>
+      </div>
+
+      <button class="btn btn-primary btn-lg" id="btn-next-0" onclick="intakeNext(1)" disabled>Continue →</button>
+    </div>
+
+    <!-- STEP 1: Background Info -->
+    <div id="intake-step-1" class="hidden">
+      <div class="page-title">Tell us about yourself</div>
+      <div class="page-sub">The more context you give, the more realistic the interview. Everything is optional — start simple if you prefer.</div>
+
+      <div class="card">
+        <div class="card-title">Target Role &amp; Industry</div>
+        <div class="form-row">
+          <div class="form-group mb-0">
+            <label>Job Title You're Applying For</label>
+            <input type="text" id="intake-role" placeholder="e.g. Marketing Coordinator">
+          </div>
+          <div class="form-group mb-0">
+            <label>Industry</label>
+            <input type="text" id="intake-industry" placeholder="e.g. Healthcare, Tech, Finance">
+          </div>
+        </div>
+        <div class="form-group mb-0" style="margin-top:16px;">
+          <label>Company You're Interviewing At <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+          <input type="text" id="intake-target-company" placeholder="e.g. Google, Mayo Clinic, Goldman Sachs">
+        </div>
+        <div class="form-group mb-0" style="margin-top:16px;">
+          <label>Seniority Level <span style="font-weight:400;color:var(--text3)">— sets the depth and expectations of your interviewer</span></label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;" id="seniority-selector">
+            <button type="button" class="seniority-btn active" data-level="entry" onclick="selectSeniority(this)">Entry Level</button>
+            <button type="button" class="seniority-btn" data-level="mid" onclick="selectSeniority(this)">Mid-Level</button>
+            <button type="button" class="seniority-btn" data-level="senior" onclick="selectSeniority(this)">Senior</button>
+            <button type="button" class="seniority-btn" data-level="executive" onclick="selectSeniority(this)">Executive / Leadership</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Resume (optional but recommended)</div>
+
+        <div class="tabs">
+          <button class="tab active" onclick="switchResumeTab('upload')">Upload File</button>
+          <button class="tab" onclick="switchResumeTab('paste')">Paste Text</button>
+        </div>
+
+        <div id="resume-upload-panel">
+          <div class="file-drop" id="resume-drop" onclick="document.getElementById('resume-file').click()" ondragover="event.preventDefault()" ondrop="handleResumeDrop(event)">
+            <div class="file-drop-icon">📄</div>
+            <div class="file-drop-text" id="resume-drop-text">Click to upload your resume<br><span style="font-size:11px;color:var(--text3)">PDF, Word (.docx), or .txt · drag and drop supported</span></div>
+            <input type="file" id="resume-file" accept=".txt,.pdf,.docx,.doc" class="hidden" onchange="handleResumeFile(event)">
+          </div>
+          <div id="resume-preview" class="hidden" style="margin-top:12px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-size:12px;font-weight:700;color:var(--green);">✅ Resume extracted — verify it looks right:</span>
+              <button onclick="clearResume()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;">✕ Remove</button>
+            </div>
+            <textarea id="resume-preview-text" style="min-height:120px;font-size:12px;color:var(--text2);background:var(--bg);border:1px solid var(--green);border-radius:var(--radius-sm);width:100%;padding:10px;resize:vertical;" oninput="APP.interview.resumeText = this.value"></textarea>
+          </div>
+        </div>
+
+        <div id="resume-paste-panel" class="hidden">
+          <textarea id="resume-paste" placeholder="Paste your resume text here..." style="min-height:140px"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Job Posting (optional)</div>
+        <div class="tabs" id="job-tabs">
+          <button class="tab active" onclick="switchJobTab('paste')">Paste Text</button>
+          <button class="tab" onclick="switchJobTab('url')">Use URL</button>
+        </div>
+        <div id="job-paste-panel">
+          <textarea id="job-paste" placeholder="Paste the job description here..." style="min-height:120px"></textarea>
+        </div>
+        <div id="job-url-panel" class="hidden">
+          <p class="form-hint" style="margin-bottom:10px;">Many sites (LinkedIn, Indeed) block automated access — if the fetch fails, just paste the description above instead.</p>
+          <div style="display:flex;gap:8px;align-items:flex-start;">
+            <input type="url" id="job-url" placeholder="https://..." style="flex:1;">
+            <button class="btn btn-secondary" id="btn-fetch-url" onclick="fetchJobUrl()" style="white-space:nowrap;flex-shrink:0;">Fetch</button>
+          </div>
+          <div id="fetch-url-status" style="font-size:12px;color:var(--text3);margin-top:6px;display:none;"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;">
+        <button class="btn btn-secondary btn-lg" onclick="intakeNext(0)">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="intakeNext(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Review & Start -->
+    <div id="intake-step-2" class="hidden">
+      <div class="page-title">Ready to begin</div>
+      <div class="page-sub">Review your setup below, then start your interview when you're ready.</div>
+
+      <div class="card" id="intake-review"></div>
+
+      <div class="card" style="border-color:var(--accent);background:var(--accent-dim);">
+        <div style="font-size:14px;line-height:1.7;color:var(--text);">
+          💡 <strong>Tips for best results:</strong><br>
+          • Use Chrome or Edge for best voice recognition<br>
+          • Find a quiet spot — background noise affects the microphone<br>
+          • Hold <kbd style="background:var(--surface);padding:1px 6px;border-radius:4px;font-size:12px;border:1px solid var(--border)">Space</kbd> to talk, release when done<br>
+          • Speak naturally — you can ask for clarification just like a real interview
+        </div>
+      </div>
+
+      <div class="card" id="mic-setup-card" style="border-color:var(--yellow);background:rgba(245,158,11,0.08);">
+        <div style="font-size:14px;line-height:1.8;color:var(--text);">
+          🎙️ <strong>One-time microphone setup (Chrome):</strong><br>
+          If Chrome keeps asking for mic permission, fix it permanently in seconds:<br>
+          1. Click the <strong>icon at the left of the address bar</strong> (may look like 🔒 or ⊙ or two small dots)<br>
+          2. Click <strong>"Site settings"</strong><br>
+          3. Set <strong>Microphone → Allow</strong><br>
+          <span style="color:var(--text2);font-size:13px;">You only need to do this once.</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;">
+        <button class="btn btn-secondary btn-lg" onclick="intakeNext(1)">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="startInterview()">🎙️ Start Interview</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN: INTERVIEW
+═══════════════════════════════════════════════════ -->
+<div id="screen-interview" class="screen">
+  <div class="interview-layout">
+    <div class="interview-header">
+      <div class="interview-info">
+        <div class="interview-title" id="iv-title">Phone Screen</div>
+        <div class="interview-sub" id="iv-company">Meridian Partners</div>
+      </div>
+      <div class="interview-timer" id="iv-timer">00:00</div>
+      <button class="btn btn-danger btn-sm" onclick="confirmEndInterview()">End Early</button>
+    </div>
+
+    <div class="interview-body">
+      <!-- Interviewer avatar -->
+      <div class="interviewer-section">
+        <div class="avatar" id="iv-avatar">👩</div>
+        <div class="interviewer-name" id="iv-interviewer-name">Sarah Chen</div>
+        <div class="interviewer-title-text" id="iv-interviewer-title">Senior Recruiter, Meridian Partners</div>
+      </div>
+
+      <!-- Transcript -->
+      <div class="transcript" id="iv-transcript"></div>
+    </div>
+
+    <!-- Voice controls -->
+    <div class="voice-controls">
+      <div class="voice-status" id="voice-status">Waiting for interviewer...</div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <button class="mic-btn disabled" id="mic-btn" onclick="toggleListening()">🎙️</button>
+      </div>
+      <div class="voice-hint">Click mic to speak · Click again when done · or hold <kbd style="background:var(--surface2);padding:1px 8px;border-radius:4px;font-size:12px;border:1px solid var(--border)">Space</kbd></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN: COACHING
+═══════════════════════════════════════════════════ -->
+<div id="screen-coaching" class="screen">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
+    <div class="nav-right">
+      <button class="btn btn-primary btn-sm" onclick="showScreen('home')">Start New Interview</button>
+    </div>
+  </nav>
+
+  <div class="coaching-header">
+    <div style="font-size:13px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Interview Complete</div>
+    <h2>Here's your coaching report</h2>
+    <div id="coaching-meta" style="font-size:13px;color:var(--text2);margin-top:4px;"></div>
+    <div class="score-row" id="score-row"></div>
+  </div>
+
+  <div class="content" style="padding-top:32px;">
+    <div id="coaching-content"></div>
+
+    <hr class="divider">
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="showScreen('home')">🏠 Return Home</button>
+      <button class="btn btn-secondary" onclick="showScreen('history')">View Session History</button>
+      <button class="btn btn-ghost" id="btn-download-report" onclick="exportCoachingReport()" disabled>📄 Download Report</button>
+      <button class="btn btn-ghost" id="btn-email-report" onclick="emailCoachingReport()" disabled>✉️ Email Report</button>
+    </div>
+    <p id="coaching-support-line" style="font-size:12px;color:var(--text3);margin-top:20px;margin-bottom:0;"></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN: HISTORY
+═══════════════════════════════════════════════════ -->
+<div id="screen-history" class="screen">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
+    <div class="nav-right">
+      <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">← Home</button>
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="page-title">Session History</div>
+    <div class="page-sub">All your past mock interviews, with coaching reports.</div>
+    <div id="history-list"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN: SETTINGS
+═══════════════════════════════════════════════════ -->
+<div id="screen-settings" class="screen">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
+    <div class="nav-right">
+      <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">← Back</button>
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="page-title">Settings</div>
+
+    <!-- USER SETTINGS (always visible) -->
+    <div class="card">
+      <div class="settings-section" style="margin-bottom:0">
+        <h3>Your Account</h3>
+        <div class="form-group">
+          <label>Display Name</label>
+          <input type="text" id="settings-name" placeholder="Your name">
+        </div>
+        <div class="form-group mb-0">
+          <label>Backup Voice <span style="font-weight:400;color:var(--text3)">(used if AI voice is unavailable)</span></label>
+          <select id="settings-browser-voice">
+            <option value="">Loading voices...</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-bottom:32px;">
+      <button class="btn btn-primary" onclick="saveUserSettings()">Save</button>
+    </div>
+
+    <!-- USAGE INFO -->
+    <div class="card" id="usage-card">
+      <div class="settings-section" style="margin-bottom:0">
+        <h3>Your Usage</h3>
+        <div id="usage-display" style="font-size:14px;color:var(--text2);line-height:1.8;"></div>
+      </div>
+    </div>
+
+    <!-- SUPPORT CONTACT -->
+    <div class="card" style="margin-top:8px;margin-bottom:8px;">
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;" id="settings-support-line"></div>
+    </div>
+
+    <!-- ADMIN PANEL (hidden behind password) -->
+    <div class="card" style="border-color:var(--border);margin-top:8px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="toggleAdminPanel()">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">Admin Access</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px;">API keys, voice settings, usage limits</div>
+        </div>
+        <span id="admin-toggle-icon" style="color:var(--text3);font-size:18px;">🔒</span>
+      </div>
+
+      <div id="admin-auth-panel" class="hidden" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+        <div class="form-group mb-0">
+          <label>Admin Password</label>
+          <div style="display:flex;gap:8px;">
+            <input type="password" id="admin-pw-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter') unlockAdmin()">
+            <button class="btn btn-primary btn-sm" onclick="unlockAdmin()">Unlock</button>
+          </div>
+          <p class="form-hint">Contact the site owner if you need admin access.</p>
+        </div>
+      </div>
+
+      <div id="admin-panel" class="hidden" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+        <div class="settings-section">
+          <h3>API Keys</h3>
+          <div class="form-group">
+            <label>Anthropic API Key</label>
+            <input type="password" id="settings-anthropic-key" class="api-key-input" placeholder="sk-ant-...">
+            <p class="form-hint">Powers the AI interview and coaching. All users share this key — you pay for usage.</p>
+          </div>
+          <div class="form-group mb-0">
+            <label>ElevenLabs API Key</label>
+            <input type="password" id="settings-elevenlabs-key" class="api-key-input" placeholder="...">
+            <p class="form-hint">Powers the interviewer's voice. Leave blank to use browser voice (free but robotic).</p>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Voice</h3>
+          <div class="form-group mb-0">
+            <label>ElevenLabs Voice ID Override <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+            <input type="text" id="settings-voice-id" placeholder="Leave blank to use gender-matched defaults">
+            <p class="form-hint">Overrides the auto-selected voice for all interviewers. Find IDs in ElevenLabs → Voices.</p>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Usage Limits</h3>
+          <div class="form-row">
+            <div class="form-group mb-0">
+              <label>Free Interview Limit per User</label>
+              <input type="number" id="settings-free-limit" min="1" max="100" placeholder="e.g. 3">
+              <p class="form-hint">Users see a friendly gate after this many interviews. Set to 999 to disable.</p>
+            </div>
+            <div class="form-group mb-0">
+              <label>Contact Email (shown at paywall)</label>
+              <input type="text" id="settings-contact-email" placeholder="you@email.com">
+              <p class="form-hint">Shown to users when they hit the limit.</p>
+            </div>
+          </div>
+          <div class="form-group mb-0" style="margin-top:16px;">
+            <label>Support Phone Number</label>
+            <input type="text" id="settings-support-phone" placeholder="(202) 649-0488">
+            <p class="form-hint">Shown on the upgrade modal, settings page, and coaching reports. Users can text or call for help.</p>
+          </div>
+        </div>
+
+        <div class="settings-section" style="margin-bottom:0">
+          <h3>Admin Password</h3>
+          <div class="form-group mb-0">
+            <label>Change Admin Password</label>
+            <input type="password" id="settings-admin-pw" placeholder="New password">
+            <p class="form-hint">Protects these settings from regular users.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:20px;">
+          <button class="btn btn-primary" onclick="saveAdminSettings()">Save Admin Settings</button>
+          <button class="btn btn-danger btn-sm" onclick="clearAllData()">Clear All Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL: PAYWALL GATE
+═══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-paywall">
+  <div class="modal" style="text-align:center;max-width:420px;">
+    <div style="font-size:40px;margin-bottom:12px;">🎯</div>
+    <h3 style="margin-bottom:8px;">You're on a roll.</h3>
+    <p style="color:var(--text2);font-size:14px;line-height:1.7;margin-bottom:20px;">
+      You've used your 3 free interviews. Upgrade to Pro to keep practicing — unlimited sessions, same great experience.
+    </p>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:20px;text-align:left;">
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;">✅ Unlimited mock interviews</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;">✅ Full coaching report after every session</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;">✅ Voice interviewer + speech analysis</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;">✅ Complete interview history</div>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:6px;">
+        <span style="font-size:30px;font-weight:800;color:var(--text);">$19</span>
+        <span style="font-size:13px;color:var(--text2);">/ month · cancel any time</span>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-lg w-full" id="upgrade-btn" onclick="handleUpgrade()">Upgrade to Pro</button>
+    <p style="font-size:12px;color:var(--text3);margin-top:10px;margin-bottom:4px;">Secure checkout via Stripe · your card info is never stored here</p>
+    <button class="btn btn-ghost btn-sm" style="margin-top:4px;" onclick="closeModal('modal-paywall')">Maybe later</button>
+    <p id="paywall-support-line" style="font-size:12px;color:var(--text3);margin-top:14px;margin-bottom:0;"></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL: WARMUP QUICK START
+═══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-warmup">
+  <div class="modal">
+    <h3>Quick Warmup</h3>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:16px;">2–3 questions, then a coaching report. No setup required — just tell us what you're practicing for.</p>
+    <div class="form-group">
+      <label>What role are you practicing for? <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+      <input type="text" id="warmup-role" placeholder="e.g. Product Manager, Sales Associate…" style="width:100%;">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-warmup')">Cancel</button>
+      <button class="btn btn-primary" onclick="launchWarmup()">Start Warmup ⚡</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL: END INTERVIEW CONFIRM
+═══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-end">
+  <div class="modal">
+    <h3>End interview early?</h3>
+    <p style="color:var(--text2);font-size:14px;">You'll still get a coaching report based on what's been said so far.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-end')">Keep Going</button>
+      <button class="btn btn-danger" onclick="endInterview()">End Interview</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL: SESSION DETAIL
+═══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-session">
+  <div class="modal">
+    <h3 id="modal-session-title"></h3>
+    <div id="modal-session-body"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-session')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  PREP WELL — FULL APPLICATION LOGIC
+// ═══════════════════════════════════════════════════════
+
+// ── STATE ──────────────────────────────────────────────
+const APP = {
+  currentUser: null,
+  interview: {
+    type: null,        // 'phone' | 'hiring'
+    personality: 3,    // 1-5
+    role: '',
+    industry: '',
+    targetCompany: '', // real company the user is interviewing at (user-provided)
+    seniority: 'entry',
+    resumeText: '',
+    jobText: '',
+    transcript: [],    // {role: 'interviewer'|'candidate', content: string}
+    startTime: null,
+    timerInterval: null,
+    company: '',       // FICTIONAL generated company name — do NOT overwrite with targetCompany
+    interviewer: { name: '', emoji: '👩', title: '' },
+    isActive: false,
+    isSpeaking: false,
+    conversationHistory: [], // for Claude API
+    _audioStream: null,      // held open for MediaRecorder during interview
+  },
+  settings: {
+    anthropicKey: '',
+    elevenlabsKey: '',
+    voiceId: '',
+    browserVoiceIndex: -1,
+    displayName: '',
+  }
+};
+
+// ── STORAGE HELPERS ────────────────────────────────────
+const DB = {
+  get: (key) => { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } },
+  set: (key, val) => localStorage.setItem(key, JSON.stringify(val)),
+  del: (key) => localStorage.removeItem(key),
+
+  getUsers: () => DB.get('pw_users') || {},
+  setUsers: (u) => DB.set('pw_users', u),
+
+  getUserData: (email) => DB.get(`pw_data_${email}`) || { sessions: [], settings: {} },
+  setUserData: (email, data) => DB.set(`pw_data_${email}`, data),
+
+  getSettings: (email) => (DB.getUserData(email).settings || {}),
+  saveSettings: (email, s) => {
+    const d = DB.getUserData(email);
+    d.settings = s;
+    DB.setUserData(email, d);
+  },
+
+  getSessions: (email) => (DB.getUserData(email).sessions || []),
+  saveSession: (email, session) => {
+    const d = DB.getUserData(email);
+    if (!d.sessions) d.sessions = [];
+    d.sessions.unshift(session);
+    DB.setUserData(email, d);
+  },
+};
+
+// ── AUTH ───────────────────────────────────────────────
+function doLogin() {
+  const email = el('login-email').value.trim().toLowerCase();
+  const pass = el('login-password').value;
+  const users = DB.getUsers();
+
+  if (!users[email]) return showLoginError('No account found with that email.');
+  if (users[email].password !== btoa(pass)) return showLoginError('Incorrect password.');
+
+  APP.currentUser = { email, name: users[email].name };
+  DB.set('pw_last_user', email);
+  loadUserSettings();
+  afterLogin();
+}
+
+async function doRegister() {
+  const name = el('reg-name').value.trim();
+  const email = el('reg-email').value.trim().toLowerCase();
+  const pass = el('reg-password').value;
+
+  if (!name) return showLoginError('Please enter your name.');
+  if (!email || !email.includes('@')) return showLoginError('Please enter a valid email.');
+  if (pass.length < 6) return showLoginError('Password must be at least 6 characters.');
+
+  const users = DB.getUsers();
+  if (users[email]) return showLoginError('An account with that email already exists.');
+
+  if (IS_HOSTED) {
+    // Hosted: require email verification
+    el('login-error').style.display = 'none';
+    const btn = document.querySelector('#form-register .btn-primary');
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending code…'; }
+    try {
+      const res = await fetch('/.netlify/functions/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'send-verify', email }),
+      });
+      const data = await res.json();
+      if (btn) { btn.disabled = false; btn.textContent = 'Create Account'; }
+      if (data.error === 'already-exists') return showLoginError('An account with that email already exists.');
+      if (data.error === 'email-not-configured') return showLoginError('Email service not configured. Contact the admin.');
+      if (!data.ok) return showLoginError('Could not send verification email. Please try again.');
+      _pendingReg = { email, name, pass };
+      el('verify-email-display').textContent = email;
+      el('verify-code').value = '';
+      showLoginForm('form-verify');
+    } catch (e) {
+      if (btn) { btn.disabled = false; btn.textContent = 'Create Account'; }
+      showLoginError('Network error. Please try again.');
+    }
+  } else {
+    // Localhost dev: skip verification
+    createAccountDirectly(email, name, pass);
+  }
+}
+
+function afterLogin() {
+  el('nav-username').textContent = `Hi, ${APP.currentUser.name.split(' ')[0]}`;
+  showScreen('home');
+  renderHome();
+  loadBrowserVoices();
+  loadSettingsForm();
+  // Silently verify Pro status (re-checks if cache is >24h old or missing)
+  verifyProStatus(APP.currentUser.email);
+}
+
+function doLogout() {
+  APP.currentUser = null;
+  showScreen('login');
+  showLogin(); // always land on sign-in form, never register
+}
+
+function showLoginError(msg) {
+  const e = el('login-error');
+  e.textContent = msg;
+  e.style.display = 'block';
+}
+
+function loadUserSettings() {
+  // Merge user prefs (voice choice etc.) with admin API keys
+  const userPrefs = DB.getSettings(APP.currentUser.email);
+  const admin = getAdminSettings();
+  APP.settings = {
+    ...APP.settings,
+    ...userPrefs,
+    anthropicKey: admin.anthropicKey || '',
+    elevenlabsKey: admin.elevenlabsKey || '',
+    voiceId: admin.voiceId || '',
+  };
+}
+
+function showLogin() {
+  // Clear register fields so they're never pre-filled after logout
+  el('reg-name').value = '';
+  el('reg-email').value = '';
+  el('reg-password').value = '';
+  _pendingReg = null;
+  _pendingReset = null;
+  el('login-error').style.display = 'none';
+  showLoginForm('form-login');
+}
+
+function showRegister() {
+  el('reg-name').value = '';
+  el('reg-email').value = '';
+  el('reg-password').value = '';
+  el('login-error').style.display = 'none';
+  showLoginForm('form-register');
+}
+
+function showForgotPassword() {
+  el('forgot-email').value = '';
+  el('login-error').style.display = 'none';
+  showLoginForm('form-forgot');
+}
+
+// Helper: show exactly one form panel, hide the rest
+function showLoginForm(activeId) {
+  ['form-login', 'form-register', 'form-verify', 'form-forgot', 'form-reset'].forEach(id => {
+    const elem = el(id);
+    if (elem) elem.classList.toggle('hidden', id !== activeId);
+  });
+}
+
+// ── SCREEN ROUTING ─────────────────────────────────────
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  el(`screen-${name}`).classList.add('active');
+
+  if (name === 'history') renderHistory();
+  if (name === 'home') renderHome();
+  if (name === 'settings') renderUsageCard(); // always show fresh usage count
+}
+
+// ── HOME ───────────────────────────────────────────────
+function renderHome() {
+  if (!APP.currentUser) return;
+  const sessions = DB.getSessions(APP.currentUser.email).slice(0, 3);
+  const container = el('home-recent');
+
+  if (!sessions.length) {
+    container.innerHTML = `<div class="empty"><div class="empty-icon">🎤</div><h3>No interviews yet</h3><p>Start your first mock interview above!</p></div>`;
+    return;
+  }
+
+  container.innerHTML = sessions.map(s => renderSessionItem(s)).join('');
+}
+
+function renderSessionItem(s) {
+  return `<div class="history-item" onclick="showSessionDetail('${s.id}')">
+    <div class="history-info">
+      <h4>${s.role || 'General Interview'} — ${s.interviewType === 'phone' ? 'Phone Screen' : s.interviewType === 'warmup' ? 'Quick Warmup' : 'Hiring Manager'}</h4>
+      <p>${s.company} · ${s.industry || 'General'}</p>
+    </div>
+    <div class="history-meta">
+      <div>${scoreTag(s.overallScore)}</div>
+      <div class="date mt-8">${formatDate(s.date)}</div>
+    </div>
+  </div>`;
+}
+
+function scoreTag(score) {
+  if (!score) return '<span class="badge badge-accent">Scored</span>';
+  const cls = score >= 80 ? 'badge-green' : score >= 60 ? 'badge-yellow' : 'badge-red';
+  return `<span class="badge ${cls}">${score}/100</span>`;
+}
+
+// ── WARMUP MODE ────────────────────────────────────────
+function startWarmup() {
+  el('warmup-role').value = '';
+  openModal('modal-warmup');
+}
+
+async function launchWarmup() {
+  closeModal('modal-warmup');
+  const role = el('warmup-role').value.trim();
+
+  // Lightweight interview state — no full intake
+  APP.interview.type       = 'warmup';
+  APP.interview.role       = role || 'general practice';
+  APP.interview.industry   = '';
+  APP.interview.seniority  = 'entry';
+  APP.interview.personality = 2; // balanced
+  APP.interview.resumeText = '';
+  APP.interview.jobText    = '';
+
+  // Pick a random interviewer
+  const interviewers = [
+    { name: 'Sarah Chen',   fullTitle: 'Hiring Manager',       voiceId: 'EXAVITQu4vr4xnSDxMaL', gender: 'female' },
+    { name: 'Marcus Webb',  fullTitle: 'Senior HR Recruiter',  voiceId: 'VR6AewLTigWG4xSOukaG', gender: 'male'   },
+  ];
+  APP.interview.interviewer = interviewers[Math.floor(Math.random() * interviewers.length)];
+  APP.interview.company = 'your next employer';
+
+  await startInterview();
+}
+
+function generateWarmupContext() {
+  const iv = APP.interview;
+  const roleCtx = iv.role && iv.role !== 'general practice' ? `The candidate is practicing for a ${iv.role} role.` : 'This is general interview practice.';
+  return `You are ${iv.interviewer.name}, a friendly and professional interviewer conducting a quick interview warmup session.
+
+WARMUP MODE — THIS IS A SHORT PRACTICE SESSION:
+- Ask exactly 2–3 questions total. No more.
+- Keep a warm, encouraging tone — this is low-stakes practice.
+- Start with one opener ("Tell me about yourself" or "Walk me through your background"), then ask 1–2 focused behavioral or situational questions.
+- After 2–3 questions, wrap up naturally and say something like: "That's great — let's stop there and get you some feedback." Then end with the exact token: [INTERVIEW_COMPLETE]
+- Do NOT introduce yourself with a long preamble. Jump in quickly and naturally.
+
+${roleCtx}
+
+CRITICAL RULES:
+- Maximum 3 questions total, then [INTERVIEW_COMPLETE]
+- Be warm and encouraging — this is warmup, not evaluation
+- Keep your own speaking turns short and natural`;
+}
+
+// ── INTAKE FLOW ────────────────────────────────────────
+let intakeInterviewType = null;
+
+function startIntake() {
+  intakeInterviewType = null;
+  resetIntakeStep(0);
+  showScreen('intake');
+}
+
+function startIntakeWithType(type) {
+  intakeInterviewType = type;
+  selectType(type);
+  resetIntakeStep(0);
+  showScreen('intake');
+}
+
+function resetIntakeStep(step) {
+  [0, 1, 2].forEach(i => {
+    el(`intake-step-${i}`).classList.toggle('hidden', i !== step);
+    el(`istep-${i}`).className = 'intake-step' + (i < step ? ' done' : i === step ? ' active' : '');
+  });
+}
+
+function intakeNext(step) {
+  resetIntakeStep(step);
+  if (step === 2) buildIntakeReview();
+}
+
+function selectType(type) {
+  intakeInterviewType = type;
+  ['phone', 'hiring'].forEach(t => {
+    el(`type-${t}`).style.borderColor = t === type ? 'var(--accent)' : '';
+    el(`type-${t}`).style.background = t === type ? 'var(--accent-dim)' : '';
+  });
+  el('btn-next-0').disabled = false;
+}
+
+const PERSONALITY_LABELS = {
+  1: 'Warm & Encouraging — very supportive, low pressure',
+  2: 'Friendly — relaxed with gentle challenge',
+  3: 'Balanced — professional and fair',
+  4: 'Direct — confident push-back, higher expectations',
+  5: 'Tough & Rigorous — challenging follow-ups, high bar'
+};
+
+function updatePersonalityLabel() {
+  const v = parseInt(el('personality-slider').value);
+  el('personality-display').textContent = PERSONALITY_LABELS[v];
+}
+
+function switchResumeTab(tab) {
+  el('resume-upload-panel').classList.toggle('hidden', tab !== 'upload');
+  el('resume-paste-panel').classList.toggle('hidden', tab !== 'paste');
+  document.querySelectorAll('#intake-step-1 .tabs .tab').forEach((t, i) => t.classList.toggle('active', (i === 0 && tab === 'upload') || (i === 1 && tab === 'paste')));
+}
+
+function switchJobTab(tab) {
+  el('job-paste-panel').classList.toggle('hidden', tab !== 'paste');
+  el('job-url-panel').classList.toggle('hidden', tab !== 'url');
+  document.querySelectorAll('#job-tabs .tab').forEach((t, i) => {
+    t.classList.toggle('active', (i === 0 && tab === 'paste') || (i === 1 && tab === 'url'));
+  });
+}
+
+async function handleResumeFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  el('resume-drop-text').innerHTML = `⏳ Reading ${file.name}...`;
+  try {
+    let text = '';
+    if (file.name.endsWith('.pdf') || file.type === 'application/pdf') {
+      text = await extractPDF(file);
+    } else if (file.name.endsWith('.docx') || file.name.endsWith('.doc') ||
+               file.type.includes('wordprocessingml') || file.type.includes('msword')) {
+      text = await extractDOCX(file);
+    } else {
+      text = await readAsText(file);
+    }
+    text = cleanResumeText(text);
+    if (text.length < 50) throw new Error('Could not extract enough text — try pasting it instead.');
+    APP.interview.resumeText = text;
+    showResumePreview(file.name, text);
+  } catch (e) {
+    console.error('Resume parse error:', e);
+    el('resume-drop').classList.remove('has-file');
+    el('resume-drop-text').innerHTML = `⚠️ Couldn't read that file: ${e.message}<br><span style="font-size:11px;color:var(--text3)">Try the "Paste Text" tab instead</span>`;
+  }
+}
+
+async function extractPDF(file) {
+  // Use PDF.js for proper text extraction
+  if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js not loaded — check your internet connection');
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  let fullText = '';
+  for (let p = 1; p <= pdf.numPages; p++) {
+    const page = await pdf.getPage(p);
+    const content = await page.getTextContent();
+    // Preserve line breaks by grouping items with similar Y positions
+    const items = content.items;
+    let lastY = null;
+    for (const item of items) {
+      const y = item.transform[5];
+      if (lastY !== null && Math.abs(y - lastY) > 3) fullText += '\n';
+      fullText += item.str + ' ';
+      lastY = y;
+    }
+    fullText += '\n\n';
+  }
+  return fullText;
+}
+
+async function extractDOCX(file) {
+  if (typeof mammoth === 'undefined') throw new Error('mammoth.js not loaded — check your internet connection');
+  const arrayBuffer = await file.arrayBuffer();
+  const result = await mammoth.extractRawText({ arrayBuffer });
+  if (result.messages.length) console.log('mammoth warnings:', result.messages);
+  return result.value;
+}
+
+function readAsText(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = () => reject(new Error('Could not read file'));
+    reader.readAsText(file);
+  });
+}
+
+function cleanResumeText(text) {
+  return text
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]{3,}/g, '  ')      // collapse excessive spaces/tabs
+    .replace(/\n{4,}/g, '\n\n\n')     // collapse excessive blank lines
+    .trim()
+    .slice(0, 6000);                   // cap at 6000 chars for the system prompt
+}
+
+function showResumePreview(filename, text) {
+  el('resume-drop').classList.add('has-file');
+  el('resume-drop-text').innerHTML = `✅ <strong>${filename}</strong> — ${text.length} characters extracted`;
+  el('resume-preview-text').value = text;
+  el('resume-preview').classList.remove('hidden');
+}
+
+function clearResume() {
+  APP.interview.resumeText = '';
+  el('resume-drop').classList.remove('has-file');
+  el('resume-drop-text').innerHTML = 'Click to upload your resume<br><span style="font-size:11px;color:var(--text3)">PDF, Word (.docx), or .txt · drag and drop supported</span>';
+  el('resume-preview').classList.add('hidden');
+  el('resume-preview-text').value = '';
+  el('resume-file').value = '';
+}
+
+function handleResumeDrop(event) {
+  event.preventDefault();
+  const file = event.dataTransfer.files[0];
+  if (file) handleResumeFile({ target: { files: [file] } });
+}
+
+const SENIORITY_LABELS = { entry: 'Entry Level', mid: 'Mid-Level', senior: 'Senior', executive: 'Executive / Leadership' };
+const SENIORITY_CONTEXT = {
+  entry:     'This candidate is early in their career (0–2 years experience). Keep questions approachable and focus on potential, attitude, and foundational skills. Avoid expecting deep strategic or leadership experience.',
+  mid:       'This candidate has 3–7 years of experience. Expect solid competency in their field, some project ownership, and growing independence. Push for specifics and results.',
+  senior:    'This candidate is applying for a senior role (7+ years). Hold them to a high bar: expect strategic thinking, ownership of complex projects, leadership of others, and measurable impact.',
+  executive: 'This candidate is interviewing for an executive or leadership role. Probe deeply on vision, organizational leadership, change management, stakeholder influence, and business-level outcomes.'
+};
+
+let _selectedSeniority = 'entry';
+function selectSeniority(btn) {
+  document.querySelectorAll('.seniority-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _selectedSeniority = btn.dataset.level;
+}
+
+function buildIntakeReview() {
+  const role = el('intake-role').value.trim();
+  const industry = el('intake-industry').value.trim();
+  const targetCompany = el('intake-target-company').value.trim();
+  const jobUrl = el('job-url').value.trim();
+  const jobPaste = el('job-paste').value.trim();
+  const resumePaste = el('resume-paste').value.trim();
+  const personality = parseInt(el('personality-slider').value);
+
+  if (resumePaste) APP.interview.resumeText = resumePaste;
+  APP.interview.jobText = jobPaste || (jobUrl ? `Job posting URL: ${jobUrl}` : '');
+  APP.interview.role = role;
+  APP.interview.industry = industry;
+  APP.interview.targetCompany = targetCompany;
+  APP.interview.type = intakeInterviewType;
+  APP.interview.personality = personality;
+  APP.interview.seniority = _selectedSeniority;
+
+  const typeLabel = intakeInterviewType === 'phone' ? 'Phone Screen (~8 min)' : 'Hiring Manager Interview (~25 min)';
+  const seniorityLabel = SENIORITY_LABELS[_selectedSeniority] || 'Entry Level';
+
+  // Hide mic setup card for users who have already done at least one interview
+  const micCard = el('mic-setup-card');
+  if (micCard) {
+    const hasInterviewed = localStorage.getItem('yh_has_interviewed');
+    micCard.style.display = hasInterviewed ? 'none' : '';
+  }
+
+  el('intake-review').innerHTML = `
+    <div class="card-title">Your Interview Setup</div>
+    <div style="display:grid;gap:12px;">
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2)">Type</span><strong>${typeLabel}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2)">Role</span><strong>${role || 'Not specified'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2)">Industry</span><strong>${industry || 'Not specified'}</strong></div>
+      ${targetCompany ? `<div style="display:flex;justify-content:space-between;"><span style="color:var(--text2)">Target Company</span><strong>${escHtml(targetCompany)}</strong></div>` : ''}
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2)">Seniority</span><strong>${seniorityLabel}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2)">Resume</span><strong>${APP.interview.resumeText ? '✅ Uploaded' : 'Not provided'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2)">Job Posting</span><strong>${APP.interview.jobText ? '✅ Provided' : 'Not provided'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2)">Interviewer Style</span><strong>${PERSONALITY_LABELS[personality]}</strong></div>
+    </div>
+  `;
+}
+
+// ── INTERVIEW ENGINE ───────────────────────────────────
+
+// Generate contextually appropriate company + interviewer names
+function generateInterviewContext(role, industry) {
+  const industryMap = [
+    { keywords: ['tech', 'software', 'saas', 'engineering', 'digital', 'cyber', 'data', 'ai ', 'machine learning', 'it ', 'information technology', 'web dev', 'app dev', 'startup', 'cloud'],
+      companies: ['Helix Software', 'Corebridge Technologies', 'Luminary Digital', 'Northgate Labs', 'Synapse Systems', 'Waypoint Tech', 'Ironhaven Solutions'] },
+    { keywords: ['finance', 'financial', 'banking', 'investment', 'accounting', 'wealth', 'fintech', 'private equity', 'hedge fund', 'trading', 'mortgage', 'asset management'],
+      companies: ['Hargrove Capital Partners', 'Clearwater Wealth Group', 'Summit Financial Advisory', 'Meridian Investment Group', 'Bridgepoint Asset Management'] },
+    { keywords: ['insurance', 'underwriting', 'actuary', 'claims', 'benefits'],
+      companies: ['Anchor Risk Solutions', 'Vantage Benefits Group', 'Clearwater Insurance Partners', 'Summit Coverage Group'] },
+    { keywords: ['health', 'medical', 'hospital', 'clinical', 'pharma', 'biotech', 'wellness', 'dental', 'nursing', 'patient care', 'physician', 'therapy'],
+      companies: ['Crestview Medical Group', 'Horizon Health Alliance', 'Clearpath Health Solutions', 'Brightwell Clinical Partners', 'Vantage Wellness Group'] },
+    { keywords: ['marketing', 'advertising', 'brand', 'pr ', 'public relations', 'communications', 'content', 'social media', 'agency', 'campaign', 'creative', 'copywriting'],
+      companies: ['The Narrative Studio', 'Signal Creative Agency', 'Uncommon & Co.', 'The Storytellers Collective', 'Bright Current Agency'] },
+    { keywords: ['real estate', 'property', 'realty', 'brokerage', 'leasing', 'property management'],
+      companies: ['Compass & Key Commercial Properties', 'Landmark Realty Group', 'Cornerstone Property Partners', 'Elevation Realty Group', 'Summit Property Advisors'] },
+    { keywords: ['construction', 'architecture', 'general contractor', 'civil engineering', 'building', 'infrastructure'],
+      companies: ['Blueprint Development Group', 'Buildmark Partners', 'Ironside Construction', 'Foundation Partners Group', 'Clearview Architecture & Build'] },
+    { keywords: ['education', 'school', 'university', 'academic', 'teaching', 'learning', 'curriculum', 'edtech', 'tutoring', 'college'],
+      companies: ['Bright Futures Education Group', 'NextGen Learning Institute', 'The Learning Lab', 'Momentum Education Partners', 'Clearpath Academy'] },
+    { keywords: ['retail', 'ecommerce', 'e-commerce', 'consumer goods', 'merchandise', 'fashion', 'apparel', 'direct-to-consumer'],
+      companies: ['Merchant & Main', 'The Curated Co.', 'Thread & Found', 'Field & Craft Retail', 'Latitude Consumer Brands'] },
+    { keywords: ['hospitality', 'hotel', 'restaurant', 'food', 'beverage', 'culinary', 'travel', 'tourism', 'event planning', 'catering'],
+      companies: ['Heritage Hospitality Group', 'The Culinary Collective', 'Table & Craft', 'Hearth Hotel Group', 'Compass Travel & Events'] },
+    { keywords: ['legal', 'law', 'attorney', 'paralegal', 'compliance', 'litigation', 'contracts', 'counsel'],
+      companies: ['Morrison & Blake LLP', 'Sterling Counsel Group', 'Clearwater Legal Partners', 'Pacific Law Associates', 'Summit Advisory & Counsel'] },
+    { keywords: ['logistics', 'supply chain', 'shipping', 'distribution', 'warehouse', 'transportation', 'freight', 'procurement', 'fulfillment'],
+      companies: ['Clearpath Logistics', 'Vector Supply Solutions', 'Bridgepoint Distribution', 'Summit Freight Partners', 'Northgate Operations Group'] },
+    { keywords: ['nonprofit', 'non-profit', 'ngo', 'foundation', 'social impact', 'community', 'charity', 'advocacy', 'social work'],
+      companies: ['The Impact Collective', 'Community Bridge Foundation', 'Forward Futures Foundation', 'Catalyst Community Partners', 'Watershed Social Impact'] },
+    { keywords: ['media', 'entertainment', 'film', 'tv ', 'television', 'publishing', 'journalism', 'broadcast', 'streaming', 'podcast', 'production'],
+      companies: ['Signal Media Group', 'Montage Entertainment', 'Harbor Media Partners', 'Broadcast & Beyond', 'Clearview Content Studio'] },
+    { keywords: ['environment', 'sustainability', 'clean energy', 'renewable', 'climate', 'conservation', 'esg'],
+      companies: ['Watershed Environmental Group', 'Green Horizon Solutions', 'Terra Impact Group', 'EcoForward Consulting', 'Clearpath Sustainability Partners'] },
+    { keywords: ['consulting', 'management consulting', 'strategy', 'advisory', 'business analyst', 'operations consulting'],
+      companies: ['Meridian Strategy Partners', 'Summit Advisory Group', 'Clearwater Consulting', 'Northgate Advisory', 'Vantage Strategy Group'] },
+  ];
+
+  const ind = (industry || '').toLowerCase();
+  const match = industryMap.find(({ keywords }) => keywords.some(kw => ind.includes(kw)));
+  const bucket = match || { companies: ['Meridian Partners', 'Summit Solutions Group', 'Vantage Consulting', 'Clearwater Group', 'Northgate Advisory'] };
+  const co = bucket.companies[Math.floor(Math.random() * bucket.companies.length)];
+
+  // voiceId: ElevenLabs premade voice IDs matched to gender
+  const interviewers = [
+    { name: 'Sarah Chen',   emoji: '👩', gender: 'female',   title: 'Senior Recruiter',        voiceId: 'EXAVITQu4vr4xnSDxMaL' }, // Sarah
+    { name: 'Jordan Reyes', emoji: '🧑', gender: 'female',   title: 'Talent Acquisition Lead', voiceId: 'EXAVITQu4vr4xnSDxMaL' }, // Sarah (neutral)
+    { name: 'Marcus Webb',  emoji: '👨', gender: 'male',     title: 'Senior Talent Partner',   voiceId: 'pNInz6obpgDQGcFmaJgB' }, // Adam
+  ];
+
+  const iv = interviewers[Math.floor(Math.random() * interviewers.length)];
+  return { company: co, interviewer: { ...iv, fullTitle: `${iv.title}, ${co}` } };
+}
+
+function buildSystemPrompt() {
+  // Warmup mode uses its own lightweight prompt
+  if (APP.interview.type === 'warmup') return generateWarmupContext();
+
+  const iv = APP.interview;
+  const ctx = APP.interview._context;
+  const personalityDesc = PERSONALITY_LABELS[iv.personality];
+
+  const typeInstructions = iv.type === 'phone'
+    ? `This is a PHONE SCREEN — approximately 10 minutes. Keep it relatively brief and high-level. Cover: brief intro/pleasantries, what they know about the company/role, their background summary, why they're interested, basic availability/logistics, and close. Ask 4-6 questions total.`
+    : `This is a HIRING MANAGER INTERVIEW — approximately 20-25 minutes. Go deep. Cover: opening, background walkthrough, 4-6 behavioral/situational questions (STAR format expected), role-specific questions, candidate questions period, and close. Ask meaningful follow-up questions based on their answers.`;
+
+  const resumeCtx = iv.resumeText ? `\n\nCANDIDATE RESUME:\n${iv.resumeText.slice(0, 6000)}` : '';
+  const jobCtx = iv.jobText ? `\n\nJOB POSTING:\n${iv.jobText.slice(0, 3000)}` : '';
+  const roleCtx = iv.role ? `Target role: ${iv.role}` : '';
+  const industryCtx = iv.industry ? `Industry: ${iv.industry}` : '';
+  const targetCompanyCtx = iv.targetCompany ? `The candidate is interviewing at: ${iv.targetCompany}` : '';
+  const seniorityCtx = SENIORITY_CONTEXT[iv.seniority] || SENIORITY_CONTEXT.entry;
+
+  const contextUsageInstructions = (iv.resumeText || iv.jobText || iv.targetCompany) ? `
+
+HOW TO USE THE CONTEXT PROVIDED:
+${iv.resumeText ? `- RESUME: Do not ignore it. Reference specific experiences, job titles, projects, or skills listed. If the candidate mentions something vague, probe based on what the resume shows. Build questions from their actual background.` : ''}
+${iv.jobText ? `- JOB POSTING: Let it drive your question selection. Prioritize competencies, tools, and requirements called out in the posting. If it emphasizes leadership, ask for leadership examples. If it lists specific skills, ask about them directly.` : ''}
+${iv.targetCompany ? `- TARGET COMPANY: The candidate is specifically targeting ${iv.targetCompany}. Where it fits naturally, reference what interviewers at that type of organization tend to care about.` : ''}` : '';
+
+  return `You are ${ctx.interviewer.name}, ${ctx.interviewer.fullTitle}. You are conducting a professional job interview.
+
+INTERVIEW TYPE: ${iv.type === 'phone' ? 'Phone Screen' : 'Hiring Manager Interview'}
+${typeInstructions}
+
+CANDIDATE SENIORITY LEVEL: ${SENIORITY_LABELS[iv.seniority] || 'Entry Level'}
+${seniorityCtx}
+
+YOUR PERSONA:
+- You are ${ctx.interviewer.name}, a professional and experienced interviewer
+- Style: ${personalityDesc}
+- You are REAL — varied in your language, not scripted or robotic
+- Ask follow-up questions that directly respond to what the candidate just said
+- React naturally to their answers — show interest, ask for more detail when something is interesting
+- Do NOT always open with "tell me about yourself" — vary your opening question
+- Keep your responses concise. In a real interview, the interviewer speaks briefly and listens more.
+- When appropriate, share a brief note about the company or role to make it feel real
+
+COMPANY: ${ctx.company}
+${roleCtx}
+${industryCtx}
+${targetCompanyCtx}
+${resumeCtx}
+${jobCtx}
+${contextUsageInstructions}
+
+INTERVIEW FLOW:
+1. Open warmly with a greeting and brief intro (1-2 sentences), then launch into your first question
+2. Ask natural follow-ups when something is worth exploring
+3. Move through your questions at a realistic pace
+4. When you have covered enough ground, signal the end: say something like "Well, [candidate name if known], I think that covers everything I wanted to discuss today. It's been great speaking with you. We'll be in touch — keep an eye on your email and the team will follow up with you next week."
+5. THEN say: [INTERVIEW_COMPLETE] on a new line — this is a signal to the app to transition to coaching mode
+
+IMPORTANT RULES:
+- Stay in character as ${ctx.interviewer.name} until you say [INTERVIEW_COMPLETE]
+- Never break character or refer to yourself as an AI during the interview
+- Respond ONLY as the interviewer — not as a narrator or coach
+- Keep each response focused. One or two questions at a time, max.
+- Your first message should be your opening greeting + first question. Start the interview immediately.`;
+}
+
+async function startInterview() {
+  if (!checkUsageLimit()) return;
+
+  if (!IS_HOSTED && !APP.settings.anthropicKey) {
+    toast('The app is not configured yet — ask the owner to add API keys in Admin Settings.', 'error');
+    return;
+  }
+
+  // Request microphone permission and keep stream open for MediaRecorder
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    APP.interview._audioStream = stream; // keep alive — we record each answer with this
+  } catch (e) {
+    alert('Microphone access is required.\n\nTo fix this in Chrome:\n1. Click the 🔒 lock icon in the address bar\n2. Click "Site settings"\n3. Set Microphone → Allow\n4. Come back and click "Start Interview" again.\n\nThis is a one-time fix.');
+    return;
+  }
+
+  // Warmup mode already has interviewer set by launchWarmup(); others generate context here
+  let ctx;
+  if (APP.interview.type === 'warmup') {
+    ctx = { company: 'Warmup Session', interviewer: APP.interview.interviewer };
+    APP.interview._context = ctx;
+  } else {
+    ctx = generateInterviewContext(APP.interview.role, APP.interview.industry);
+    APP.interview._context = ctx;
+    APP.interview.company = ctx.company;
+    APP.interview.interviewer = ctx.interviewer;
+  }
+  APP.interview.transcript = [];
+  APP.interview.conversationHistory = [];
+  APP.interview.isActive = true;
+  APP.interview.startTime = Date.now();
+
+  // Update UI
+  const typeLabels = { phone: 'Phone Screen', hiring: 'Hiring Manager Interview', warmup: 'Quick Warmup ⚡' };
+  el('iv-title').textContent = typeLabels[APP.interview.type] || 'Interview';
+  el('iv-company').textContent = APP.interview.type === 'warmup' ? (APP.interview.role !== 'general practice' ? APP.interview.role : 'General Practice') : ctx.company;
+  el('iv-avatar').textContent = ctx.interviewer.emoji || '🎙️';
+  el('iv-interviewer-name').textContent = ctx.interviewer.name;
+  el('iv-interviewer-title').textContent = APP.interview.type === 'warmup' ? 'Your Warmup Coach' : ctx.interviewer.fullTitle;
+  el('iv-transcript').innerHTML = '';
+
+  showScreen('interview');
+
+  // Start timer
+  APP.interview.timerInterval = setInterval(updateTimer, 1000);
+
+  // Spacebar listener
+  document.addEventListener('keydown', spaceKeyDown);
+  document.addEventListener('keyup', spaceKeyUp);
+
+  // Get first interviewer message
+  await getInterviewerResponse();
+}
+
+function updateTimer() {
+  const elapsed = Math.floor((Date.now() - APP.interview.startTime) / 1000);
+  const m = Math.floor(elapsed / 60).toString().padStart(2, '0');
+  const s = (elapsed % 60).toString().padStart(2, '0');
+  el('iv-timer').textContent = `${m}:${s}`;
+}
+
+async function getInterviewerResponse(candidateMessage) {
+  APP.interview.isSpeaking = true;
+  setMicState('disabled');
+  setVoiceStatus('speaking', `${APP.interview.interviewer.name} is responding...`);
+  el('iv-avatar').classList.add('speaking');
+
+  // Add thinking indicator
+  const thinkId = addThinkingBubble();
+
+  // Build messages for Claude
+  const messages = [...APP.interview.conversationHistory];
+  if (candidateMessage) {
+    messages.push({ role: 'user', content: candidateMessage });
+  }
+
+  let response = '';
+  try {
+    response = await callClaude(buildSystemPrompt(), messages);
+    APP.interview.conversationHistory.push(
+      ...(candidateMessage ? [{ role: 'user', content: candidateMessage }] : []),
+      { role: 'assistant', content: response }
+    );
+  } catch (e) {
+    response = "I'm sorry, I'm having a technical issue. Let's pause for a moment.";
+    console.error('Claude API error:', e);
+    toast('API error — check your Anthropic key in Settings', 'error');
+  }
+
+  removeThinkingBubble(thinkId);
+
+  // If the interview was ended while we were waiting for Claude, bail out now
+  if (!APP.interview.isActive) return;
+
+  // Check for interview complete signal
+  const isComplete = response.includes('[INTERVIEW_COMPLETE]');
+  const cleanResponse = response.replace('[INTERVIEW_COMPLETE]', '').trim();
+
+  // Add to transcript
+  APP.interview.transcript.push({ role: 'interviewer', content: cleanResponse });
+  addMessageToUI('interviewer', cleanResponse);
+
+  // Speak the response
+  await speakText(cleanResponse);
+
+  el('iv-avatar').classList.remove('speaking');
+  APP.interview.isSpeaking = false;
+
+  // Check again after speaking — user may have ended interview while interviewer was talking
+  if (!APP.interview.isActive) return;
+
+  if (isComplete) {
+    await endInterview();
+  } else {
+    setMicState('ready');
+    setVoiceStatus('ready', 'Your turn — hold Space to speak');
+  }
+}
+
+// ── CLAUDE API ─────────────────────────────────────────
+
+// When hosted on Netlify, route API calls through serverless functions so keys stay server-side.
+// On localhost, fall back to direct browser calls (requires key in Admin panel).
+const IS_HOSTED = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+
+async function callClaude(systemPrompt, messages, maxTokens = 1024, model = null) {
+  // If no messages yet, send a single user message to trigger the first response
+  const apiMessages = messages.length === 0
+    ? [{ role: 'user', content: 'Please begin the interview.' }]
+    : messages;
+
+  if (IS_HOSTED) {
+    // Hosted: proxy through Netlify serverless function (key stays server-side)
+    const body = { systemPrompt, messages: apiMessages, maxTokens };
+    if (model) body.model = model; // only send if explicitly specified
+    const res = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    return data.text;
+  }
+
+  // Localhost: direct browser call (requires ANTHROPIC_KEY in Admin panel)
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': APP.settings.anthropicKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: model || 'claude-sonnet-4-6',
+      max_tokens: maxTokens,
+      system: systemPrompt,
+      messages: apiMessages,
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || `HTTP ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data.content[0].text;
+}
+
+// ── VOICE ──────────────────────────────────────────────
+
+// ElevenLabs TTS
+async function speakText(text) {
+  // Strip markdown formatting that LLMs emit — asterisks, underscores, backticks
+  // These render fine in chat but get read aloud literally by TTS ("asterisk sports asterisk")
+  text = stripMarkdown(text);
+  if (!APP.interview.isActive) return;
+  if (IS_HOSTED || APP.settings.elevenlabsKey) {
+    try {
+      await speakElevenLabs(text);
+      return;
+    } catch (e) {
+      if (!APP.interview.isActive) return; // don't fall through to browser TTS after interview ends
+      console.warn('ElevenLabs failed, falling back to browser voice:', e);
+    }
+  }
+  if (!APP.interview.isActive) return;
+  await speakBrowser(text);
+}
+
+async function speakElevenLabs(text) {
+  // Use settings override → interviewer's gender-matched voice → fallback Sarah
+  const voiceId = APP.settings.voiceId
+    || APP.interview.interviewer?.voiceId
+    || 'EXAVITQu4vr4xnSDxMaL';
+
+  let res;
+  if (IS_HOSTED) {
+    // Hosted: proxy through Netlify serverless function (key stays server-side)
+    res = await fetch('/.netlify/functions/elevenlabs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, voiceId }),
+    });
+  } else {
+    // Localhost: direct browser call (requires ELEVENLABS_KEY in Admin panel)
+    res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: 'POST',
+      headers: {
+        'xi-api-key': APP.settings.elevenlabsKey,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text,
+        model_id: 'eleven_turbo_v2',
+        voice_settings: { stability: 0.5, similarity_boost: 0.75 }
+      })
+    });
+  }
+
+  if (!res.ok) throw new Error(`ElevenLabs ${res.status}`);
+
+  // Interview may have ended while we were waiting on ElevenLabs — don't play
+  if (!APP.interview.isActive) return;
+
+  const blob = await res.blob();
+  // Interview may have ended while blob was downloading — check again before playing
+  if (!APP.interview.isActive) return;
+  const url = URL.createObjectURL(blob);
+  const audio = new Audio(url);
+  _activeElevenLabsAudio = audio; // track so endInterview() can kill it
+
+  return new Promise((resolve, reject) => {
+    audio.onended = () => { URL.revokeObjectURL(url); _activeElevenLabsAudio = null; resolve(); };
+    audio.onerror = () => { URL.revokeObjectURL(url); _activeElevenLabsAudio = null; reject(); };
+    audio.play();
+  });
+}
+
+function speakBrowser(text) {
+  return new Promise(resolve => {
+    if (!window.speechSynthesis) { resolve(); return; }
+    speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(text);
+    const voices = speechSynthesis.getVoices();
+    if (APP.settings.browserVoiceIndex >= 0 && voices[APP.settings.browserVoiceIndex]) {
+      utt.voice = voices[APP.settings.browserVoiceIndex];
+    }
+    utt.rate = 1.0;
+    utt.pitch = 1.0;
+    utt.onend = resolve;
+    utt.onerror = resolve;
+    speechSynthesis.speak(utt);
+  });
+}
+
+// Speech recognition + audio recording
+let recognition = null;
+let isListening = false;
+let spaceDown = false;
+let _currentSpokenText = ''; // tracks what was said during current listening session
+let _mediaRecorder = null;
+let _audioChunks = [];
+let _activeElevenLabsAudio = null; // tracked so endInterview() can kill it mid-sentence
+
+function spaceKeyDown(e) {
+  if (e.code === 'Space' && !spaceDown && APP.interview.isActive && !APP.interview.isSpeaking) {
+    spaceDown = true;
+    e.preventDefault();
+    startListening();
+  }
+}
+
+function spaceKeyUp(e) {
+  if (e.code === 'Space' && spaceDown) {
+    spaceDown = false;
+    e.preventDefault();
+    stopListening();
+  }
+}
+
+function startListening() {
+  if (!APP.interview.isActive || APP.interview.isSpeaking || isListening) return;
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    toast('Speech recognition not supported. Use Chrome or Edge.', 'error');
+    return;
+  }
+
+  speechSynthesis.cancel();
+  _currentSpokenText = '';
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  recognition.onresult = (e) => {
+    let finalPart = '';
+    let interimPart = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) finalPart += e.results[i][0].transcript;
+      else interimPart += e.results[i][0].transcript;
+    }
+    if (finalPart) _currentSpokenText += finalPart;
+    const display = (_currentSpokenText + interimPart).trim();
+    const preview = display.length > 70 ? '...' + display.slice(-70) : display;
+    setVoiceStatus('listening', preview ? `"${preview}"` : 'Listening...');
+  };
+
+  recognition.onerror = (e) => {
+    if (e.error !== 'no-speech') console.warn('Recognition error:', e.error);
+  };
+
+  recognition.onend = () => {
+    if (isListening) { try { recognition.start(); } catch(e) {} }
+  };
+
+  recognition.start();
+  isListening = true;
+  el('mic-btn').className = 'mic-btn listening';
+  el('mic-btn').textContent = '🔴';
+  setVoiceStatus('listening', 'Listening...');
+
+  // Start audio recording alongside speech recognition
+  _audioChunks = [];
+  if (APP.interview._audioStream && typeof MediaRecorder !== 'undefined') {
+    try {
+      const mimeType = ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'].find(t => MediaRecorder.isTypeSupported(t)) || '';
+      _mediaRecorder = new MediaRecorder(APP.interview._audioStream, mimeType ? { mimeType } : {});
+      _mediaRecorder.ondataavailable = e => { if (e.data && e.data.size > 0) _audioChunks.push(e.data); };
+      _mediaRecorder.start(100);
+    } catch(e) {
+      console.warn('MediaRecorder unavailable, audio playback will use TTS:', e);
+      _mediaRecorder = null;
+    }
+  }
+}
+
+async function stopListening() {
+  if (!isListening) return;
+  isListening = false;
+
+  if (recognition) {
+    recognition.onend = null;
+    recognition.stop();
+    recognition = null;
+  }
+
+  // Stop MediaRecorder and collect blob in parallel with speech recognition settling
+  const recorderToStop = _mediaRecorder;
+  _mediaRecorder = null;
+  const blobPromise = new Promise(resolve => {
+    if (recorderToStop && recorderToStop.state !== 'inactive') {
+      recorderToStop.onstop = () => {
+        const chunks = [..._audioChunks];
+        resolve(chunks.length > 0 ? new Blob(chunks, { type: chunks[0]?.type || 'audio/webm' }) : null);
+      };
+      recorderToStop.stop();
+    } else {
+      resolve(null);
+    }
+  });
+
+  // Brief pause to let final speech recognition results land (runs concurrently with blob collection)
+  await new Promise(r => setTimeout(r, 350));
+  const audioBlob = await blobPromise;
+
+  const spoken = _currentSpokenText.trim();
+  el('mic-btn').className = 'mic-btn disabled';
+  el('mic-btn').textContent = '🎙️';
+
+  if (spoken.length > 1) {
+    APP.interview.transcript.push({ role: 'candidate', content: spoken, audioBlob });
+    addMessageToUI('candidate', spoken);
+    await getInterviewerResponse(spoken);
+  } else {
+    setMicState('ready');
+    setVoiceStatus('ready', 'Your turn — hold Space to speak');
+  }
+}
+
+function setMicState(state) {
+  const btn = el('mic-btn');
+  btn.className = `mic-btn ${state}`;
+  btn.textContent = '🎙️';
+}
+
+function toggleListening() {
+  if (!APP.interview.isActive || APP.interview.isSpeaking) return;
+  if (isListening) {
+    stopListening();
+  } else {
+    startListening();
+  }
+}
+
+
+function setVoiceStatus(type, text) {
+  const s = el('voice-status');
+  s.textContent = text;
+  s.className = `voice-status ${type}`;
+}
+
+// ── TRANSCRIPT UI ──────────────────────────────────────
+function stripMarkdown(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/_(.+?)_/g, '$1')
+    .replace(/`(.+?)`/g, '$1');
+}
+
+function addMessageToUI(role, content) {
+  const div = document.createElement('div');
+  div.className = `msg msg-${role === 'interviewer' ? 'interviewer' : 'candidate'}`;
+  div.innerHTML = `
+    <div class="msg-label">${role === 'interviewer' ? APP.interview.interviewer.name : (APP.currentUser?.name || 'You')}</div>
+    <div class="msg-bubble">${escHtml(stripMarkdown(content))}</div>
+  `;
+  el('iv-transcript').appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+let _thinkCounter = 0;
+function addThinkingBubble() {
+  const id = `think-${++_thinkCounter}`;
+  const div = document.createElement('div');
+  div.id = id;
+  div.className = 'msg msg-interviewer';
+  div.innerHTML = `
+    <div class="msg-label">${APP.interview.interviewer.name}</div>
+    <div class="msg-bubble msg-thinking"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  `;
+  el('iv-transcript').appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  return id;
+}
+
+function removeThinkingBubble(id) {
+  el(id)?.remove();
+}
+
+// ── END INTERVIEW ──────────────────────────────────────
+function confirmEndInterview() {
+  openModal('modal-end');
+}
+
+async function endInterview() {
+  closeModal('modal-end');
+  APP.interview.isActive = false;
+  clearInterval(APP.interview.timerInterval);
+  document.removeEventListener('keydown', spaceKeyDown);
+  document.removeEventListener('keyup', spaceKeyUp);
+
+  // Stop all audio immediately — both ElevenLabs (Audio element) and browser TTS
+  // Note: do NOT set .src='' after pausing — that triggers onerror which causes speakText()
+  // to fall through to the browser TTS fallback, restarting the voice on a new utterance.
+  if (_activeElevenLabsAudio) {
+    _activeElevenLabsAudio.pause();
+    _activeElevenLabsAudio = null;
+  }
+  speechSynthesis.cancel();
+
+  // Stop speech recognition and recording
+  if (recognition) { recognition.onend = null; recognition.stop(); recognition = null; }
+  if (_mediaRecorder && _mediaRecorder.state !== 'inactive') _mediaRecorder.stop();
+  _mediaRecorder = null;
+
+  // Release the mic stream — clears the recording indicator in the browser tab
+  if (APP.interview._audioStream) {
+    APP.interview._audioStream.getTracks().forEach(t => t.stop());
+    APP.interview._audioStream = null;
+  }
+
+  // Mark that user has completed at least one interview — hides first-time mic setup tips
+  localStorage.setItem('yh_has_interviewed', '1');
+
+  // If user ended before answering anything, skip the report — nothing to analyze
+  const answersGiven = APP.interview.transcript.filter(t => t.role === 'candidate');
+  if (answersGiven.length === 0) {
+    showScreen('home');
+    toast('Session ended — no answers to report on. Try again when you\'re ready!', '');
+    return;
+  }
+
+  showScreen('coaching');
+  await generateCoachingReport();
+}
+
+// ── FILLER WORD ANALYSIS (client-side, no API needed) ──
+function analyzeFillerWords(transcript) {
+  const candidateEntries = transcript.filter(t => t.role === 'candidate');
+  const fullText = candidateEntries.map(t => t.content || '').join(' ');
+  const lower = fullText.toLowerCase();
+
+  // Definite fillers — nearly always filler usage
+  const definite = {
+    'um':       (lower.match(/\bum\b/g) || []).length,
+    'uh':       (lower.match(/\buh\b/g) || []).length,
+    'you know': (lower.match(/\byou know\b/g) || []).length,
+    'I mean':   (lower.match(/\bi mean\b/g) || []).length,
+    'so um':    (lower.match(/\bso um\b/g) || []).length,
+  };
+
+  // Watch-list — sometimes legitimate, sometimes filler
+  const watchlist = {
+    'like':      (lower.match(/\blike\b/g) || []).length,
+    'basically': (lower.match(/\bbasically\b/g) || []).length,
+    'literally': (lower.match(/\bliterally\b/g) || []).length,
+  };
+
+  const definiteTotal = Object.values(definite).reduce((a, b) => a + b, 0);
+  const wordCount = fullText.split(/\s+/).filter(w => w.length > 0).length;
+
+  // Only surface watchlist words if they appear ≥3 times (reduces noise)
+  const watchlistFiltered = Object.fromEntries(Object.entries(watchlist).filter(([,c]) => c >= 3));
+
+  return { definite, definiteTotal, watchlist: watchlistFiltered, wordCount };
+}
+
+function renderFillerSection(fillerData) {
+  const { definite, definiteTotal, watchlist, wordCount } = fillerData;
+  const rate = wordCount > 0 ? (definiteTotal / wordCount) : 0;
+
+  let body = '';
+  if (definiteTotal === 0 && Object.keys(watchlist).length === 0) {
+    body = `<div class="coaching-item positive">Clean delivery — no detected filler words across your answers. This is harder than it sounds; well done.</div>`;
+  } else {
+    const rateLabel = rate > 0.04 ? '⚠️ This is on the higher side. Try pausing in silence instead — a brief pause sounds confident; a filler word does not.'
+      : rate > 0.02 ? 'This is within a normal range, but worth staying aware of.'
+      : 'Low frequency — just something to keep an eye on.';
+
+    const definiteList = Object.entries(definite).filter(([,c]) => c > 0)
+      .map(([w,c]) => `<strong>"${w}"</strong> × ${c}`).join('  ·  ');
+
+    body = `<div class="coaching-item improvement">
+      ${definiteTotal > 0 ? `Detected <strong>${definiteTotal}</strong> filler word${definiteTotal !== 1 ? 's' : ''}: ${definiteList}<br><span style="font-size:13px;color:var(--text2);">${rateLabel}</span>` : ''}
+      ${Object.keys(watchlist).length > 0 ? `${definiteTotal > 0 ? '<br><br>' : ''}<span style="font-size:13px;color:var(--text2);"><strong>Watch-list words</strong> (sometimes filler, sometimes fine): ${Object.entries(watchlist).map(([w,c]) => `"${w}" × ${c}`).join(', ')}. Listen back to your answers and decide if they added meaning.</span>` : ''}
+    </div>`;
+  }
+
+  return `<div class="coaching-section"><h3>🗣️ Speaking Habits</h3>${body}</div>`;
+}
+
+// ── COACHING LOADER ────────────────────────────────────
+const LOADER_STEPS = [
+  'Reviewing your transcript',
+  'Calculating your scores',
+  'Writing personalized feedback…',
+  'Preparing your report'
+];
+// Ring circumference (r=32): 2π×32 ≈ 201. Offset = 201×(1-pct)
+const LOADER_RING_C = 201;
+const LOADER_RING_PCTS = [
+  { active: 10, done: 25 },
+  { active: 38, done: 52 },
+  { active: 68, done: 82 },
+  { active: 91, done: 100 }
+];
+let _loaderTimers = [];
+
+function showCoachingLoader() {
+  el('coaching-content').innerHTML = `
+    <div style="max-width:500px;margin:0 auto;padding:36px 0 48px;">
+      <div style="display:flex;align-items:center;gap:28px;">
+        <div style="flex-shrink:0;">
+          <svg id="loader-ring" width="82" height="82" viewBox="0 0 82 82" aria-hidden="true">
+            <circle cx="41" cy="41" r="32" fill="none" stroke="var(--border)" stroke-width="5"/>
+            <circle id="loader-ring-fill" cx="41" cy="41" r="32" fill="none" stroke="var(--accent)" stroke-width="5"
+              stroke-dasharray="${LOADER_RING_C}" stroke-dashoffset="${LOADER_RING_C}"
+              stroke-linecap="round" transform="rotate(-90 41 41)"
+              style="transition:stroke-dashoffset 0.75s cubic-bezier(.4,0,.2,1)"/>
+            <text id="loader-pct" x="41" y="47" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent)">0%</text>
+          </svg>
+        </div>
+        <div style="flex:1;">
+          ${LOADER_STEPS.map((label, i) => `
+            <div id="loader-step-${i}" class="loader-step">
+              <div class="loader-step-icon" id="loader-icon-${i}">·</div>
+              <span>${label}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text3);text-align:center;margin-top:28px;">
+        Your coach is analyzing every answer — this usually takes 15–30 seconds
+      </p>
+    </div>`;
+}
+
+function _setLoaderStep(index, state) {
+  const stepEl = el(`loader-step-${index}`);
+  const iconEl = el(`loader-icon-${index}`);
+  if (!stepEl || !iconEl) return;
+
+  stepEl.classList.remove('is-active', 'is-done');
+  if (state === 'done') {
+    stepEl.classList.add('is-done');
+    iconEl.innerHTML = '✓';
+  } else if (state === 'active') {
+    stepEl.classList.add('is-active');
+    iconEl.innerHTML = `<div style="width:7px;height:7px;border-radius:50%;background:currentColor;animation:loader-dot-pulse 1.2s ease infinite;"></div>`;
+  }
+
+  const pct = LOADER_RING_PCTS[index]?.[state] ?? 0;
+  const ringFill = document.getElementById('loader-ring-fill');
+  const pctEl   = document.getElementById('loader-pct');
+  if (ringFill) ringFill.style.strokeDashoffset = LOADER_RING_C * (1 - pct / 100);
+  if (pctEl)   pctEl.textContent = pct + '%';
+}
+
+function startLoaderTimers() {
+  _loaderTimers.forEach(clearTimeout);
+  _loaderTimers = [];
+  _setLoaderStep(0, 'active');
+  _loaderTimers.push(setTimeout(() => { _setLoaderStep(0, 'done'); _setLoaderStep(1, 'active'); }, 1800));
+  _loaderTimers.push(setTimeout(() => { _setLoaderStep(1, 'done'); _setLoaderStep(2, 'active'); }, 5000));
+}
+
+// Returns a Promise that resolves after the finish animation plays
+function finishLoader() {
+  _loaderTimers.forEach(clearTimeout);
+  _loaderTimers = [];
+  return new Promise(resolve => {
+    _setLoaderStep(2, 'done');
+    setTimeout(() => { _setLoaderStep(3, 'active'); }, 350);
+    setTimeout(() => { _setLoaderStep(3, 'done'); }, 950);
+    setTimeout(resolve, 1300);
+  });
+}
+
+// ── COACHING REPORT ────────────────────────────────────
+async function generateCoachingReport() {
+  const iv = APP.interview;
+  const elapsed = Math.floor((Date.now() - iv.startTime) / 1000);
+  const duration = `${Math.floor(elapsed/60)}m ${elapsed%60}s`;
+
+  const ivTypeLabel = { phone: 'Phone Screen', hiring: 'Hiring Manager Interview', warmup: 'Quick Warmup' }[iv.type] || 'Interview';
+  el('coaching-meta').textContent = `${ivTypeLabel} · ${iv.company} · ${duration}`;
+
+  // Clear any stale scores from a previous session
+  el('score-row').innerHTML = '';
+
+  // Disable download/email until report is ready
+  const dlBtn = el('btn-download-report');
+  const emlBtn = el('btn-email-report');
+  if (dlBtn) dlBtn.disabled = true;
+  if (emlBtn) emlBtn.disabled = true;
+
+  showCoachingLoader();
+  startLoaderTimers();
+
+  const candidateName = APP.currentUser?.name?.split(' ')[0] || 'the candidate';
+  const transcriptText = iv.transcript.map(t => `${t.role === 'interviewer' ? iv.interviewer.name : candidateName}: ${t.content}`).join('\n\n');
+
+  // Warmup gets a lighter prompt — fewer questions means we need less output, and we want to stay
+  // well within Netlify's 26s function timeout. Full interviews get the complete report.
+  const isWarmup = iv.type === 'warmup';
+
+  const coachingPrompt = isWarmup
+    ? `You are an expert interview coach. Give ${candidateName} brief, direct feedback on their warmup practice.
+Address them as "you" directly. Be warm and specific. Keep ALL text fields SHORT — this is a quick warmup, not a full report.
+
+ROLE PRACTICED: ${iv.role || 'General'}
+CANDIDATE: ${candidateName}
+
+TRANSCRIPT:
+${transcriptText}
+
+Respond in this JSON format ONLY (no other text, no markdown). Keep every string under 40 words:
+{
+  "overallScore": <number 0-100>,
+  "scores": { "communication": <0-100>, "content": <0-100>, "confidence": <0-100>, "specificity": <0-100> },
+  "summary": "<2 sentences max>",
+  "strengths": ["<1 sentence>", "<1 sentence>"],
+  "improvements": ["<1 sentence coaching tip>", "<1 sentence coaching tip>"],
+  "questionFeedback": [{ "question": "<brief>", "candidateAnswer": "<10 words max>", "feedback": "<1-2 sentences>", "modelAnswer": "<1-2 sentences>" }],
+  "nextSteps": ["<1 sentence>", "<1 sentence>"]
+}`
+    : `You are an expert interview coach giving personalized feedback directly to ${candidateName} after their mock interview.
+
+CRITICAL TONE RULES:
+- Address ${candidateName} directly using "you" and "your" — NEVER say "the candidate"
+- Be warm, honest, and specific — like a great mentor, not a report generator
+- Keep each feedback item concise — 1-2 sentences max per item
+- When you mention any interview technique (STAR, CAR, elevator pitch etc.), briefly explain it in plain language
+
+INTERVIEW TYPE: ${iv.type === 'phone' ? 'Phone Screen' : 'Hiring Manager Interview'}
+TARGET ROLE: ${iv.role || 'Not specified'}
+INDUSTRY: ${iv.industry || 'Not specified'}
+SENIORITY LEVEL: ${SENIORITY_LABELS[iv.seniority] || 'Entry Level'}
+CANDIDATE: ${candidateName}
+
+TRANSCRIPT:
+${transcriptText}
+
+Provide your analysis in this JSON format EXACTLY (no other text, no markdown):
+{
+  "overallScore": <number 0-100>,
+  "scores": { "communication": <0-100>, "content": <0-100>, "confidence": <0-100>, "specificity": <0-100> },
+  "summary": "<2-3 sentences addressing ${candidateName} directly>",
+  "strengths": ["<strength — 1-2 sentences>", "<strength 2>", "<strength 3>"],
+  "improvements": ["<coaching tip — 1-2 sentences>", "<tip 2>", "<tip 3>"],
+  "questionFeedback": [
+    {
+      "question": "<interviewer question, brief>",
+      "candidateAnswer": "<their answer in ~15 words>",
+      "feedback": "<1-2 sentence coaching note>",
+      "modelAnswer": "<2 sentence example of a strong answer>"
+    }
+  ],
+  "nextSteps": ["<actionable next step — 1 sentence>", "<step 2>", "<step 3>"]
+}`;
+
+  // Haiku is 5-8x faster than Sonnet and handles structured JSON well.
+  // This keeps coaching report generation comfortably under Netlify's 26s timeout
+  // even for long interviews with many question-feedback entries.
+  const coachingModel = 'claude-haiku-4-5-20251001';
+  const maxTokens = isWarmup ? 900 : 3500;
+
+  let report;
+  try {
+    const raw = await callClaude(
+      coachingPrompt,
+      [{ role: 'user', content: 'Please analyze this interview and provide the JSON coaching report.' }],
+      maxTokens,
+      coachingModel
+    );
+    // Strip markdown code fences if Claude wraps JSON in them
+    const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+    const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('No JSON found in response. Raw output: ' + raw.slice(0, 300));
+    report = JSON.parse(jsonMatch[0]);
+    // Validate required fields so null scores don't slip through silently
+    if (typeof report.overallScore !== 'number') throw new Error('Missing overallScore in parsed JSON');
+  } catch (e) {
+    console.error('Coaching report failed:', e.message);
+    _loaderTimers.forEach(clearTimeout);
+    _loaderTimers = [];
+
+    // Save the session with transcript even though report failed — so history is preserved
+    const transcriptForStorageOnError = iv.transcript.map(({ audioBlob, ...rest }) => rest);
+    DB.saveSession(APP.currentUser.email, {
+      id: Date.now().toString(),
+      date: new Date().toISOString(),
+      interviewType: iv.type,
+      company: iv.company,
+      role: iv.role,
+      industry: iv.industry,
+      overallScore: null,
+      report: null,
+      transcript: transcriptForStorageOnError,
+      duration
+    });
+
+    const candidateTurns = (iv.transcript || []).filter(t => t.role === 'candidate').length;
+    const errorDetail = candidateTurns < 3
+      ? `Your session only had <strong>${candidateTurns} answer${candidateTurns !== 1 ? 's' : ''}</strong> — there wasn't enough to build a report from. Aim for at least 3–4 exchanges before ending.`
+      : `This can happen when the network is slow or the interview ran long. Your transcript has been saved — try starting a new session, and it should work fine.`;
+
+    el('coaching-content').innerHTML = `
+      <div class="card" style="border-color:var(--red);margin-bottom:16px;">
+        <p style="color:var(--red);font-size:14px;font-weight:700;margin-bottom:8px;">⚠️ We couldn't generate your coaching report</p>
+        <p style="color:var(--text2);font-size:14px;line-height:1.7;">${errorDetail}</p>
+      </div>`;
+    report = null;
+  }
+
+  if (!report) {
+    // Still show the support line even on error — user may need help
+    const coachingSupportErr = el('coaching-support-line');
+    if (coachingSupportErr) {
+      const phone = getSupportPhone();
+      coachingSupportErr.innerHTML = `Need help? Text us at <a href="sms:${phone.replace(/\D/g,'')}" style="color:var(--text2)">${phone}</a>.`;
+    }
+    return;
+  }
+
+  // Play out the finish animation, then render
+  await finishLoader();
+
+  // Run filler word analysis (client-side, instant)
+  const fillerData = analyzeFillerWords(iv.transcript);
+
+  // Save session (transcript without blobs — blobs are in-memory only for current session)
+  const transcriptForStorage = iv.transcript.map(({ audioBlob, ...rest }) => rest);
+  const session = {
+    id: Date.now().toString(),
+    date: new Date().toISOString(),
+    interviewType: iv.type,
+    company: iv.company,
+    role: iv.role,
+    industry: iv.industry,
+    overallScore: report.overallScore,
+    report,
+    transcript: transcriptForStorage,
+    duration
+  };
+
+  DB.saveSession(APP.currentUser.email, session);
+
+  // Render scores with staggered reveal animation
+  el('score-row').innerHTML = [
+    ['Overall', report.overallScore],
+    ['Communication', report.scores?.communication],
+    ['Content', report.scores?.content],
+    ['Confidence', report.scores?.confidence],
+    ['Specificity', report.scores?.specificity],
+  ].map(([label, score], i) => {
+    const num = typeof score === 'number' ? score : null;
+    const color = num === null ? 'var(--text3)' : num >= 80 ? 'var(--green)' : num >= 60 ? 'var(--yellow)' : 'var(--red)';
+    return `
+      <div class="score-card animate-in" style="animation-delay:${i * 0.12}s">
+        <div class="score-num" style="color:${color};">${num !== null ? num : '—'}</div>
+        <div class="score-label">${label}</div>
+      </div>`;
+  }).join('');
+
+  // Render coaching content
+  el('coaching-content').innerHTML = `
+    <div class="card" style="margin-bottom:24px;">
+      <p style="font-size:15px;line-height:1.7;color:var(--text)">${escHtml(report.summary)}</p>
+    </div>
+
+    <div class="coaching-section">
+      <h3>✅ What You Did Well</h3>
+      ${report.strengths.map(s => `<div class="coaching-item positive">${escHtml(s)}</div>`).join('')}
+    </div>
+
+    <div class="coaching-section">
+      <h3>📈 Areas to Improve</h3>
+      ${report.improvements.map(s => `<div class="coaching-item improvement">${escHtml(s)}</div>`).join('')}
+    </div>
+
+    ${renderFillerSection(fillerData)}
+
+    ${report.questionFeedback.length > 0 ? `
+    <div class="coaching-section">
+      <h3>🔍 Question-by-Question Feedback</h3>
+      ${report.questionFeedback.map((q, i) => `
+        <div class="coaching-item" style="margin-bottom:16px;">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Interviewer asked</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:10px;">${escHtml(q.question)}</div>
+          ${q.candidateAnswer ? `
+          <div style="display:flex;align-items:flex-start;gap:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:10px;">
+            <div style="flex:1;font-size:13px;color:var(--text2);line-height:1.5;font-style:italic;">"${escHtml(q.candidateAnswer.slice(0, 200))}${q.candidateAnswer.length > 200 ? '...' : ''}"</div>
+            <button data-playback="${i}" data-playing="false" onclick="playbackAnswer(${i})"
+              style="flex-shrink:0;background:var(--accent-dim);color:var(--accent);border:1px solid rgba(99,102,241,0.3);border-radius:6px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;"
+              title="Play back your actual recorded answer">▶ Listen</button>
+          </div>` : ''}
+          <div style="font-size:14px;line-height:1.7;color:var(--text);margin-bottom:10px;">${escHtml(q.feedback)}</div>
+          ${q.modelAnswer ? `
+          <div>
+            <button onclick="toggleModelAnswer(${i})" id="model-toggle-${i}"
+              style="background:none;border:none;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;padding:0;display:flex;align-items:center;gap:5px;">
+              💡 See a model answer ▼
+            </button>
+            <div id="model-answer-${i}" style="display:none;margin-top:8px;padding:12px 14px;background:var(--bg);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:13px;line-height:1.7;color:var(--text2);">
+              ${escHtml(q.modelAnswer)}
+            </div>
+          </div>` : ''}
+        </div>
+      `).join('')}
+    </div>` : ''}
+
+    <div class="coaching-section">
+      <h3>🎯 Next Steps</h3>
+      ${report.nextSteps.map(s => `<div class="coaching-item">${escHtml(s)}</div>`).join('')}
+    </div>
+  `;
+
+  // Enable download and email buttons now that report is ready
+  const dlBtn2 = el('btn-download-report');
+  const emlBtn2 = el('btn-email-report');
+  if (dlBtn2) dlBtn2.disabled = false;
+  if (emlBtn2) emlBtn2.disabled = false;
+
+  // Support line
+  const coachingSupport = el('coaching-support-line');
+  if (coachingSupport) {
+    const phone = getSupportPhone();
+    coachingSupport.innerHTML = `Questions about your report or billing? Text us at <a href="sms:${phone.replace(/\D/g,'')}" style="color:var(--text2)">${phone}</a>.`;
+  }
+}
+
+function toggleModelAnswer(index) {
+  const panel = el(`model-answer-${index}`);
+  const btn = el(`model-toggle-${index}`);
+  if (!panel || !btn) return;
+  const showing = panel.style.display !== 'none';
+  panel.style.display = showing ? 'none' : 'block';
+  btn.innerHTML = showing ? '💡 See a model answer ▼' : '💡 Hide model answer ▲';
+}
+
+// ── HISTORY ────────────────────────────────────────────
+function renderHistory() {
+  if (!APP.currentUser) return;
+  const sessions = DB.getSessions(APP.currentUser.email);
+  const container = el('history-list');
+
+  if (!sessions.length) {
+    container.innerHTML = `<div class="empty"><div class="empty-icon">📋</div><h3>No sessions yet</h3><p>Complete your first mock interview to see it here.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = sessions.map(s => renderSessionItem(s)).join('');
+}
+
+function showSessionDetail(id) {
+  const sessions = DB.getSessions(APP.currentUser.email);
+  const session = sessions.find(s => s.id === id);
+  if (!session) return;
+
+  el('modal-session-title').textContent = `${session.role || 'Interview'} — ${formatDate(session.date)}`;
+  el('modal-session-body').innerHTML = `
+    <div style="color:var(--text2);font-size:13px;margin-bottom:16px;">${session.company} · ${session.interviewType === 'phone' ? 'Phone Screen' : session.interviewType === 'warmup' ? 'Quick Warmup' : 'Hiring Manager'} · ${session.duration}</div>
+    ${session.report ? `
+      <div class="score-row" style="justify-content:flex-start;margin-bottom:16px;">
+        <div class="score-card"><div class="score-num">${session.overallScore}</div><div class="score-label">Overall</div></div>
+      </div>
+      <p style="font-size:14px;line-height:1.7;margin-bottom:16px;">${escHtml(session.report.summary || '')}</p>
+      <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:8px;">STRENGTHS</div>
+      ${(session.report.strengths || []).map(s => `<div class="coaching-item positive" style="margin-bottom:6px;">${escHtml(s)}</div>`).join('')}
+      <div style="font-size:13px;font-weight:700;color:var(--text2);margin:12px 0 8px;">IMPROVEMENTS</div>
+      ${(session.report.improvements || []).map(s => `<div class="coaching-item improvement" style="margin-bottom:6px;">${escHtml(s)}</div>`).join('')}
+    ` : '<p style="color:var(--text2)">No report available for this session.</p>'}
+  `;
+  openModal('modal-session');
+}
+
+// ── SETTINGS ───────────────────────────────────────────
+// ── ADMIN PANEL ────────────────────────────────────────
+function getAdminSettings() {
+  return DB.get('pw_admin') || {
+    anthropicKey: '', elevenlabsKey: '', voiceId: '',
+    freeLimit: 5, contactEmail: '', supportPhone: '(202) 649-0488', adminPassword: 'admin'
+  };
+}
+
+function getSupportPhone() {
+  return getAdminSettings().supportPhone || '(202) 649-0488';
+}
+
+function loadSettingsForm() {
+  el('settings-name').value = APP.currentUser?.name || '';
+  renderUsageCard();
+  const phone = getSupportPhone();
+  const supportLine = el('settings-support-line');
+  if (supportLine) supportLine.innerHTML = `Questions or billing issues? Text us at <a href="sms:${phone.replace(/\D/g,'')}" style="color:var(--accent);font-weight:600;">${phone}</a> — we typically reply within a few hours.`;
+  // Admin fields loaded only when unlocked
+}
+
+function renderUsageCard() {
+  const count = DB.getSessions(APP.currentUser?.email || '').length;
+  const admin = getAdminSettings();
+  const limit = admin.freeLimit || 5;
+  const remaining = Math.max(0, limit - count);
+  el('usage-display').innerHTML = `
+    <div>Interviews completed: <strong>${count}</strong></div>
+    <div>Free sessions remaining: <strong style="color:${remaining > 0 ? 'var(--green)' : 'var(--red)'};">${remaining}</strong> of ${limit}</div>
+    ${remaining === 0 ? `<div style="color:var(--yellow);margin-top:4px;">Contact <strong>${admin.contactEmail || 'the app owner'}</strong> to unlock more sessions.</div>` : ''}
+  `;
+}
+
+function toggleAdminPanel() {
+  const auth = el('admin-auth-panel');
+  const panel = el('admin-panel');
+  if (!panel.classList.contains('hidden')) {
+    // collapse
+    panel.classList.add('hidden');
+    auth.classList.add('hidden');
+    el('admin-toggle-icon').textContent = '🔒';
+  } else {
+    auth.classList.remove('hidden');
+    el('admin-toggle-icon').textContent = '🔓';
+    setTimeout(() => el('admin-pw-input').focus(), 50);
+  }
+}
+
+function unlockAdmin() {
+  const pw = el('admin-pw-input').value;
+  const admin = getAdminSettings();
+  if (pw !== admin.adminPassword) {
+    toast('Incorrect admin password', 'error');
+    el('admin-pw-input').value = '';
+    return;
+  }
+  el('admin-auth-panel').classList.add('hidden');
+  el('admin-panel').classList.remove('hidden');
+  // Populate admin fields
+  el('settings-anthropic-key').value = admin.anthropicKey || '';
+  el('settings-elevenlabs-key').value = admin.elevenlabsKey || '';
+  el('settings-voice-id').value = admin.voiceId || '';
+  el('settings-free-limit').value = admin.freeLimit || 5;
+  el('settings-contact-email').value = admin.contactEmail || '';
+  el('settings-support-phone').value = admin.supportPhone || '(202) 649-0488';
+  el('settings-admin-pw').value = '';
+  toast('Admin panel unlocked', 'success');
+}
+
+function saveAdminSettings() {
+  const newPw = el('settings-admin-pw').value.trim();
+  const existing = getAdminSettings();
+  const admin = {
+    anthropicKey: el('settings-anthropic-key').value.trim(),
+    elevenlabsKey: el('settings-elevenlabs-key').value.trim(),
+    voiceId: el('settings-voice-id').value.trim(),
+    freeLimit: parseInt(el('settings-free-limit').value) || 5,
+    contactEmail: el('settings-contact-email').value.trim(),
+    supportPhone: el('settings-support-phone').value.trim() || '(202) 649-0488',
+    adminPassword: newPw || existing.adminPassword,
+  };
+  DB.set('pw_admin', admin);
+  // Update live settings
+  APP.settings.anthropicKey = admin.anthropicKey;
+  APP.settings.elevenlabsKey = admin.elevenlabsKey;
+  APP.settings.voiceId = admin.voiceId;
+  toast('Admin settings saved!', 'success');
+}
+
+function saveUserSettings() {
+  const name = el('settings-name').value.trim();
+  const browserVoiceIndex = parseInt(el('settings-browser-voice').value) || -1;
+
+  if (name && APP.currentUser) {
+    const users = DB.getUsers();
+    if (users[APP.currentUser.email]) {
+      users[APP.currentUser.email].name = name;
+      DB.setUsers(users);
+      APP.currentUser.name = name;
+      el('nav-username').textContent = `Hi, ${name.split(' ')[0]}`;
+    }
+  }
+
+  const s = DB.getSettings(APP.currentUser.email);
+  s.browserVoiceIndex = browserVoiceIndex;
+  DB.saveSettings(APP.currentUser.email, s);
+  APP.settings.browserVoiceIndex = browserVoiceIndex;
+  toast('Settings saved!', 'success');
+}
+
+// ── USAGE GATE ─────────────────────────────────────────
+function checkUsageLimit() {
+  const email = APP.currentUser?.email || '';
+  const settings = DB.getSettings(email);
+
+  // Pro users bypass the limit
+  if (settings.isPro) return true;
+
+  const admin = getAdminSettings();
+  const limit = admin.freeLimit || 3;
+  const count = DB.getSessions(email).length;
+  if (count >= limit) {
+    const supportLine = el('paywall-support-line');
+    if (supportLine) supportLine.innerHTML = `Questions? Text us at <a href="sms:${getSupportPhone().replace(/\D/g,'')}" style="color:var(--text2)">${getSupportPhone()}</a> — we typically reply within a few hours.`;
+    openModal('modal-paywall');
+    return false;
+  }
+  return true;
+}
+
+function clearAllData() {
+  if (!confirm('This will delete ALL data including users, sessions, and settings. Are you sure?')) return;
+  localStorage.clear();
+  location.reload();
+}
+
+function loadBrowserVoices() {
+  const loadVoices = () => {
+    const voices = speechSynthesis.getVoices();
+    const select = el('settings-browser-voice');
+    select.innerHTML = voices.map((v, i) => `<option value="${i}">${v.name} (${v.lang})</option>`).join('');
+    if (APP.settings.browserVoiceIndex >= 0) select.value = APP.settings.browserVoiceIndex;
+  };
+
+  if (speechSynthesis.getVoices().length) loadVoices();
+  else speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+// ── PLAYBACK ───────────────────────────────────────────
+let _playbackAudio = null; // Audio element or SpeechSynthesisUtterance
+
+function playbackAnswer(index) {
+  const btn = document.querySelector(`[data-playback="${index}"]`);
+
+  // Stop anything currently playing
+  if (_playbackAudio) {
+    if (_playbackAudio instanceof Audio) {
+      _playbackAudio.pause();
+      if (_playbackAudio._blobUrl) URL.revokeObjectURL(_playbackAudio._blobUrl);
+    } else {
+      speechSynthesis.cancel();
+    }
+    _playbackAudio = null;
+    // If clicking the same button that's already playing, just stop
+    if (btn && btn.dataset.playing === 'true') {
+      btn.dataset.playing = 'false';
+      btn.textContent = '▶ Listen';
+      return;
+    }
+  }
+
+  // Reset all other buttons
+  document.querySelectorAll('[data-playback]').forEach(b => { b.textContent = '▶ Listen'; b.dataset.playing = 'false'; });
+
+  // Find the candidate transcript entry — match by index among candidate turns
+  const candidateAnswers = APP.interview.transcript.filter(t => t.role === 'candidate');
+  const entry = candidateAnswers[index];
+
+  if (btn) { btn.textContent = '⏹ Stop'; btn.dataset.playing = 'true'; }
+  const onDone = () => { if (btn) { btn.textContent = '▶ Listen'; btn.dataset.playing = 'false'; } _playbackAudio = null; };
+
+  if (entry?.audioBlob) {
+    // 🎙️ Real recorded voice — play the actual audio blob
+    const url = URL.createObjectURL(entry.audioBlob);
+    const audio = new Audio(url);
+    audio._blobUrl = url;
+    audio.onended = () => { URL.revokeObjectURL(url); onDone(); };
+    audio.onerror = onDone;
+    _playbackAudio = audio;
+    audio.play().catch(onDone);
+  } else {
+    // Fallback: TTS read-back (used for historical sessions without recorded audio)
+    const session = DB.getSessions(APP.currentUser?.email || '')?.[0];
+    const text = entry?.content || session?.report?.questionFeedback?.[index]?.candidateAnswer;
+    if (!text) { toast('Answer not available', 'error'); onDone(); return; }
+
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.rate = 0.95;
+    const voices = speechSynthesis.getVoices();
+    // Prefer Google's natural-sounding voices; Samantha is good on Mac
+    const preferred = voices.find(v => v.name.includes('Google US English'))
+      || voices.find(v => v.name === 'Samantha')
+      || voices.find(v => v.lang === 'en-US')
+      || voices[0];
+    if (preferred) utt.voice = preferred;
+    utt.onend = onDone;
+    utt.onerror = onDone;
+    _playbackAudio = utt;
+    speechSynthesis.speak(utt);
+  }
+}
+
+function exportCoachingReport() {
+  const sessions = DB.getSessions(APP.currentUser.email);
+  const latest = sessions[0];
+  if (!latest || !latest.report) {
+    toast('No report to download yet.', 'error');
+    return;
+  }
+
+  const text = `YOU'RE HIRED — COACHING REPORT
+================================
+Date: ${formatDate(latest.date)}
+Role: ${latest.role || 'General'}
+Company: ${latest.company}
+Type: ${latest.interviewType === 'phone' ? 'Phone Screen' : 'Hiring Manager Interview'}
+Duration: ${latest.duration}
+
+OVERALL SCORE: ${latest.overallScore}/100
+
+SUMMARY
+${latest.report?.summary || ''}
+
+STRENGTHS
+${(latest.report?.strengths || []).map((s,i) => `${i+1}. ${s}`).join('\n')}
+
+AREAS TO IMPROVE
+${(latest.report?.improvements || []).map((s,i) => `${i+1}. ${s}`).join('\n')}
+
+NEXT STEPS
+${(latest.report?.nextSteps || []).map((s,i) => `${i+1}. ${s}`).join('\n')}
+
+TRANSCRIPT
+----------
+${(latest.transcript || []).map(t => `[${t.role.toUpperCase()}]: ${t.content}`).join('\n\n')}
+`;
+
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `yourehired-report-${new Date().toISOString().split('T')[0]}.txt`;
+  a.click();
+}
+
+function emailCoachingReport() {
+  const sessions = DB.getSessions(APP.currentUser.email);
+  const latest = sessions[0];
+  if (!latest || !latest.report) {
+    toast('No report to send yet.', 'error');
+    return;
+  }
+
+  const r = latest.report;
+  const typeLabel = { phone: 'Phone Screen', hiring: 'Hiring Manager Interview', warmup: 'Quick Warmup' }[latest.interviewType] || 'Interview';
+
+  const subject = encodeURIComponent(`You're Hired. — Coaching Report (${latest.role || 'General'}, ${formatDate(latest.date)})`);
+
+  // Keep body concise — Outlook Web and some clients fail on URLs > ~2000 chars
+  const body = encodeURIComponent(
+`YOU'RE HIRED — COACHING REPORT
+================================
+Date: ${formatDate(latest.date)}
+Role: ${latest.role || 'General'}
+Company: ${latest.company}
+Type: ${typeLabel}
+Duration: ${latest.duration}
+Overall Score: ${latest.overallScore}/100
+
+SUMMARY
+${r.summary || ''}
+
+STRENGTHS
+${(r.strengths || []).map((s,i) => `${i+1}. ${s}`).join('\n')}
+
+AREAS TO IMPROVE
+${(r.improvements || []).map((s,i) => `${i+1}. ${s}`).join('\n')}
+
+NEXT STEPS
+${(r.nextSteps || []).map((s,i) => `${i+1}. ${s}`).join('\n')}
+
+---
+To review full question-by-question feedback and listen to your recorded answers,
+log back into the You're Hired. app and open this session from Session History.
+---
+Powered by You're Hired. — Practice like it's real. Land the job for real.`
+  );
+
+  // Use window.open to avoid navigating away from the report page.
+  // Some email clients (e.g. Outlook Web) fail on very long mailto URLs — keep body concise.
+  window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+}
+
+// ── MODAL ──────────────────────────────────────────────
+function openModal(id) { el(id).classList.add('open'); }
+function closeModal(id) { el(id).classList.remove('open'); }
+
+// ── EMAIL VERIFICATION & PASSWORD RESET ────────────────
+let _pendingReg = null;   // {email, name, pass} — held while user enters verify code
+let _pendingReset = null; // {email} — held while user enters reset code
+
+function createAccountDirectly(email, name, pass) {
+  const users = DB.getUsers();
+  users[email] = { name, password: btoa(pass) };
+  DB.setUsers(users);
+  APP.currentUser = { email, name };
+  DB.set('pw_last_user', email);
+  loadUserSettings();
+  afterLogin();
+}
+
+async function verifyEmail() {
+  if (!_pendingReg) return showLoginError('Registration session expired. Please try again.');
+  const code = (el('verify-code').value || '').trim();
+  if (!/^\d{6}$/.test(code)) return showLoginError('Enter the 6-digit code from your email.');
+
+  el('login-error').style.display = 'none';
+  const btn = document.querySelector('#form-verify .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Verifying…'; }
+
+  try {
+    const res = await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'check-verify', email: _pendingReg.email, code }),
+    });
+    const data = await res.json();
+    if (btn) { btn.disabled = false; btn.textContent = 'Verify & Create Account'; }
+
+    if (data.error === 'no-pending') return showLoginError('Verification expired. Please register again.');
+    if (data.error === 'expired') return showLoginError('Code expired. Please register again.');
+    if (data.error === 'wrong-code') return showLoginError('Incorrect code. Please try again.');
+    if (!data.ok) return showLoginError('Verification failed. Please try again.');
+
+    const { email, name, pass } = _pendingReg;
+    _pendingReg = null;
+    createAccountDirectly(email, name, pass);
+  } catch (e) {
+    if (btn) { btn.disabled = false; btn.textContent = 'Verify & Create Account'; }
+    showLoginError('Network error. Please try again.');
+  }
+}
+
+async function resendVerifyCode() {
+  if (!_pendingReg) return;
+  try {
+    await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'send-verify', email: _pendingReg.email }),
+    });
+    toast('New code sent!', 'success');
+  } catch (e) {
+    showLoginError('Could not resend code. Please try again.');
+  }
+}
+
+async function sendPasswordReset() {
+  const email = (el('forgot-email').value || '').trim().toLowerCase();
+  if (!email || !email.includes('@')) return showLoginError('Please enter a valid email address.');
+
+  if (!IS_HOSTED) {
+    return showLoginError('Password reset requires the hosted version. Contact the admin for help resetting your password manually.');
+  }
+
+  el('login-error').style.display = 'none';
+  const btn = document.querySelector('#form-forgot .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  try {
+    await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'send-reset', email }),
+    });
+    if (btn) { btn.disabled = false; btn.textContent = 'Send Reset Code'; }
+    // Always proceed — don't reveal whether the email exists
+    _pendingReset = { email };
+    el('reset-email-display').textContent = email;
+    el('reset-code').value = '';
+    el('reset-new-password').value = '';
+    showLoginForm('form-reset');
+  } catch (e) {
+    if (btn) { btn.disabled = false; btn.textContent = 'Send Reset Code'; }
+    showLoginError('Network error. Please try again.');
+  }
+}
+
+async function confirmPasswordReset() {
+  if (!_pendingReset) return showLoginError('Reset session expired. Please try again.');
+  const code = (el('reset-code').value || '').trim();
+  const newPass = el('reset-new-password').value;
+
+  if (!/^\d{6}$/.test(code)) return showLoginError('Enter the 6-digit code from your email.');
+  if (newPass.length < 6) return showLoginError('Password must be at least 6 characters.');
+
+  el('login-error').style.display = 'none';
+  const btn = document.querySelector('#form-reset .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Resetting…'; }
+
+  try {
+    const res = await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'check-reset', email: _pendingReset.email, code }),
+    });
+    const data = await res.json();
+    if (btn) { btn.disabled = false; btn.textContent = 'Reset Password'; }
+
+    if (data.error === 'no-pending') return showLoginError('Reset expired. Please request a new code.');
+    if (data.error === 'expired') return showLoginError('Code expired. Please request a new one.');
+    if (data.error === 'wrong-code') return showLoginError('Incorrect code. Please try again.');
+    if (!data.ok) return showLoginError('Reset failed. Please try again.');
+
+    // Update password in localStorage
+    const email = _pendingReset.email;
+    _pendingReset = null;
+    const users = DB.getUsers();
+    if (users[email]) {
+      users[email].password = btoa(newPass);
+      DB.setUsers(users);
+    }
+    toast('Password reset! Please sign in with your new password.', 'success');
+    showLogin();
+  } catch (e) {
+    if (btn) { btn.disabled = false; btn.textContent = 'Reset Password'; }
+    showLoginError('Network error. Please try again.');
+  }
+}
+
+// ── TOAST ──────────────────────────────────────────────
+let toastTimeout;
+function toast(msg, type = '') {
+  const t = el('toast');
+  t.textContent = msg;
+  t.className = `toast show ${type}`;
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ── PRO / STRIPE ───────────────────────────────────────
+
+async function verifyProStatus(email, showToast) {
+  if (!email) return false;
+  const settings = DB.getSettings(email);
+  const now = Date.now();
+  const cacheAge = now - (settings.iProVerifiedAt || 0);
+  const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+  // Use cached value if fresh
+  if (settings.isPro !== undefined && cacheAge < CACHE_TTL && !showToast) return settings.isPro;
+
+  try {
+    const res = await fetch('/.netlify/functions/stripe-verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    if (!res.ok) return settings.isPro || false;
+    const data = await res.json();
+    DB.saveSettings(email, { ...settings, isPro: data.isPro, iProVerifiedAt: now });
+    if (showToast && data.isPro) {
+      toast('🎉 Pro activated — enjoy unlimited interviews!', 'success');
+    }
+    return data.isPro;
+  } catch {
+    return settings.isPro || false; // fall back to cache on network error
+  }
+}
+
+async function handleUpgrade() {
+  const btn = el('upgrade-btn');
+  if (!btn) return;
+  btn.textContent = 'Redirecting to checkout…';
+  btn.disabled = true;
+  try {
+    const res = await fetch('/.netlify/functions/stripe-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: APP.currentUser?.email }),
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error('No checkout URL returned');
+    }
+  } catch {
+    btn.textContent = 'Upgrade to Pro';
+    btn.disabled = false;
+    toast('Something went wrong starting checkout. Please try again.', 'error');
+  }
+}
+
+async function fetchJobUrl() {
+  const url = el('job-url').value.trim();
+  if (!url) { toast('Enter a URL first.', 'error'); return; }
+
+  const btn = el('btn-fetch-url');
+  const status = el('fetch-url-status');
+  btn.disabled = true;
+  btn.textContent = '…';
+  status.style.display = 'block';
+  status.textContent = 'Fetching job posting…';
+
+  try {
+    const res = await fetch('/.netlify/functions/fetch-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url }),
+    });
+    const data = await res.json();
+
+    if (data.text) {
+      // Populate paste field and switch to it
+      el('job-paste').value = data.text;
+      switchJobTab('paste');
+      status.style.display = 'none';
+      toast('Job posting fetched — review the text above.', 'success');
+    } else if (data.error === 'timeout') {
+      status.textContent = '⚠️ The site took too long to respond. Try pasting the job description directly.';
+    } else {
+      status.textContent = '⚠️ Couldn\'t read that page (the site may block automated access). Paste the job description above instead.';
+    }
+  } catch {
+    status.textContent = '⚠️ Fetch failed. Paste the job description above instead.';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Fetch';
+}
+
+// ── UTILS ──────────────────────────────────────────────
+function el(id) { return document.getElementById(id); }
+function escHtml(str) { return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// ── INIT ───────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Click outside a modal overlay to close it
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal(overlay.id);
+    });
+  });
+
+  // Show browser warning for Safari / Firefox — Web Speech API not supported
+  const ua = navigator.userAgent;
+  const isChrome  = /chrome|chromium|crios/i.test(ua) && !/edg/i.test(ua);
+  const isEdge    = /edg/i.test(ua);
+  const supported = isChrome || isEdge;
+  if (!supported) {
+    const w = document.getElementById('browser-warning');
+    if (w) w.style.display = 'block';
+  }
+
+  updatePersonalityLabel();
+
+  // Always start with the sign-in form visible (never the register form)
+  showLogin();
+
+  // Handle Stripe redirect back after successful checkout
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('upgrade') === 'success') {
+    history.replaceState({}, '', window.location.pathname);
+    DB.set('pw_pending_pro_verify', 'true');
+  }
+
+  // Check for existing session (simple auto-login if we remember the user)
+  const lastUser = DB.get('pw_last_user');
+  if (lastUser) {
+    const users = DB.getUsers();
+    if (users[lastUser]) {
+      APP.currentUser = { email: lastUser, name: users[lastUser].name };
+      loadUserSettings();
+      afterLogin();
+      // If returning from Stripe upgrade, force re-verify and show confirmation
+      if (DB.get('pw_pending_pro_verify')) {
+        DB.del('pw_pending_pro_verify');
+        verifyProStatus(lastUser, true);
+      }
+    }
+  }
+});
+
+</script>
+</body>
+</html>
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; flex-direction: column; min-height: 100vh; }
+  .screen.active { display: flex; }
+
+  /* ── TOP NAV ── */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; cursor: pointer; }
+  .nav-logo span { color: var(--text2); font-weight: 400; }
+  .nav-right { display: flex; gap: 12px; align-items: center; }
+  .nav-user { font-size: 13px; color: var(--text2); }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 10px 20px; border-radius: var(--radius-sm);
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    border: none; transition: all 0.15s; text-decoration: none;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-ghost { background: transparent; color: var(--text2); }
+  .btn-ghost:hover { color: var(--text); }
+  .btn-danger { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
+  .btn-lg { padding: 14px 28px; font-size: 16px; border-radius: var(--radius); }
+  .btn-sm { padding: 7px 14px; font-size: 13px; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+  /* ── CARDS & LAYOUT ── */
+  .content { flex: 1; padding: 32px 24px; max-width: 800px; width: 100%; margin: 0 auto; }
+  .content-wide { max-width: 1000px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--text); }
+  .page-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .page-sub { font-size: 15px; color: var(--text2); margin-bottom: 32px; }
+
+  /* ── FORMS ── */
+  .form-group { margin-bottom: 20px; }
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  input[type=text], input[type=email], input[type=password], input[type=url], textarea, select {
+    width: 100%; padding: 11px 14px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--text); font-size: 14px;
+    transition: border-color 0.15s;
+    font-family: inherit;
+  }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 100px; }
+  select { cursor: pointer; }
+  option { background: var(--surface); }
+  .form-hint { font-size: 12px; color: var(--text3); margin-top: 4px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 4px; background: var(--bg); border-radius: var(--radius-sm); padding: 4px; margin-bottom: 16px; border: 1px solid var(--border); }
+  .tab { flex: 1; padding: 8px; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 6px; color: var(--text2); transition: all 0.15s; border: none; background: transparent; }
+  .tab.active { background: var(--accent); color: white; }
+
+  /* ── SLIDER ── */
+  .slider-wrap { margin: 8px 0; }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-top: 4px; }
+  input[type=range] {
+    -webkit-appearance: none; width: 100%; height: 4px;
+    background: var(--border); border-radius: 2px; outline: none; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 18px; height: 18px;
+    border-radius: 50%; background: var(--accent); cursor: pointer;
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+
+  /* ── BADGES ── */
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .badge-accent { background: var(--accent-dim); color: var(--accent); }
+  .badge-green { background: var(--green-dim); color: var(--green); }
+  .badge-red { background: var(--red-dim); color: var(--red); }
+  .badge-yellow { background: rgba(245,158,11,0.15); color: var(--yellow); }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* ── LOGIN SCREEN ── */
+  #screen-login { align-items: center; justify-content: center; }
+  .login-box { width: 100%; max-width: 400px; padding: 0 24px; }
+  .login-logo { font-size: 36px; font-weight: 800; color: var(--accent); text-align: center; margin-bottom: 8px; }
+  .login-tagline { text-align: center; color: var(--text2); font-size: 15px; margin-bottom: 40px; }
+  .login-toggle { text-align: center; margin-top: 20px; font-size: 13px; color: var(--text2); }
+  .login-toggle a { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+  .login-error { background: var(--red-dim); border: 1px solid var(--red); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; color: var(--red); margin-bottom: 16px; display: none; }
+
+  /* ── HOME SCREEN ── */
+  .home-hero { text-align: center; padding: 48px 0 32px; }
+  .home-hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 12px; }
+  .home-hero h1 span { color: var(--accent); }
+  .home-hero p { font-size: 16px; color: var(--text2); max-width: 480px; margin: 0 auto 32px; line-height: 1.6; }
+  .home-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .home-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px; cursor: pointer;
+    transition: all 0.2s; position: relative; overflow: hidden;
+  }
+  .home-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.15); }
+  .home-card-icon { font-size: 32px; margin-bottom: 12px; }
+  .home-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .home-card p { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .home-card .duration { position: absolute; top: 16px; right: 16px; }
+
+  /* ── INTAKE SCREEN ── */
+  .intake-steps { display: flex; gap: 8px; margin-bottom: 32px; }
+  .intake-step { flex: 1; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.3s; }
+  .intake-step.done { background: var(--accent); }
+  .intake-step.active { background: var(--accent); opacity: 0.5; }
+
+  /* ── INTERVIEW SCREEN ── */
+  #screen-interview { background: var(--bg); }
+  .interview-layout { display: flex; flex-direction: column; height: 100vh; }
+  .interview-header {
+    padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border); background: var(--surface);
+  }
+  .interview-info { display: flex; flex-direction: column; }
+  .interview-title { font-size: 15px; font-weight: 700; }
+  .interview-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .interview-timer { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent); }
+
+  .interview-body { flex: 1; display: flex; flex-direction: column; padding: 24px; overflow: hidden; }
+
+  /* Interviewer avatar */
+  .interviewer-section { display: flex; flex-direction: column; align-items: center; padding: 24px 0 16px; }
+  .avatar {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; margin-bottom: 12px; position: relative;
+    box-shadow: 0 0 0 0 rgba(99,102,241,0.4);
+    transition: box-shadow 0.1s;
+  }
+  .avatar.speaking { animation: pulse-ring 1s ease-out infinite; }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(99,102,241,0.4); }
+    70% { box-shadow: 0 0 0 16px rgba(99,102,241,0); }
+    100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+  }
+  .interviewer-name { font-size: 15px; font-weight: 700; }
+  .interviewer-title-text { font-size: 12px; color: var(--text2); }
+
+  /* Transcript */
+  .transcript { flex: 1; overflow-y: auto; padding: 8px 0; margin: 16px 0; }
+  .msg { margin-bottom: 12px; display: flex; flex-direction: column; }
+  .msg-interviewer .msg-bubble {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px 12px 12px 4px; padding: 12px 16px; font-size: 14px;
+    line-height: 1.6; max-width: 85%; align-self: flex-start;
+  }
+  .msg-candidate .msg-bubble {
+    background: var(--accent-dim); border: 1px solid rgba(99,102,241,0.3);
+    border-radius: 12px 12px 4px 12px; padding: 12px 16px; font-size: 14px;
+    line-height: 1.6; max-width: 85%; align-self: flex-end;
+  }
+  .msg-label { font-size: 11px; font-weight: 700; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .msg-candidate .msg-label { text-align: right; }
+  .msg-thinking { display: flex; gap: 4px; align-items: center; padding: 12px 16px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text3); animation: blink 1.2s ease-in-out infinite; }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.3; } 40% { opacity: 1; } }
+
+  /* Voice controls */
+  .voice-controls {
+    padding: 20px; background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .mic-btn {
+    width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 26px;
+    transition: all 0.15s; position: relative;
+    background: var(--surface2); color: var(--text2); border: 2px solid var(--border);
+  }
+  .mic-btn.listening {
+    background: var(--red-dim); color: var(--red); border-color: var(--red);
+    animation: pulse-mic 1.5s ease-in-out infinite;
+  }
+  .mic-btn.ready { background: var(--surface2); color: var(--text); border-color: var(--accent); cursor: pointer; }
+  .mic-btn.ready:hover { background: var(--accent-dim); }
+  .mic-btn.disabled { opacity: 0.3; cursor: not-allowed; }
+  @keyframes pulse-mic {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); }
+    50% { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
+  }
+  .voice-hint { font-size: 12px; color: var(--text3); text-align: center; }
+  .voice-status { font-size: 13px; font-weight: 600; color: var(--text2); min-height: 20px; }
+  .voice-status.listening { color: var(--red); }
+  .voice-status.speaking { color: var(--accent); }
+
+  /* ── COACHING SCREEN ── */
+  .coaching-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 24px; text-align: center; }
+  .coaching-header h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+  .score-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  .score-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 24px; text-align: center; min-width: 100px; }
+  .score-card .score-num { font-size: 32px; font-weight: 800; color: var(--accent); }
+  .score-card .score-label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .score-card.animate-in { animation: scoreReveal 0.45s cubic-bezier(.2,.8,.4,1) backwards; }
+  @keyframes scoreReveal { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: none; } }
+  .loader-step { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text3); transition: color 0.35s; }
+  .loader-step + .loader-step { margin-top: 10px; }
+  .loader-step-icon { width: 22px; height: 22px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; transition: background 0.35s, color 0.35s; }
+  .loader-step.is-done { color: var(--green,#22c55e); }
+  .loader-step.is-done .loader-step-icon { background: rgba(34,197,94,0.15); color: var(--green,#22c55e); }
+  .loader-step.is-active { color: var(--text); }
+  .loader-step.is-active .loader-step-icon { background: rgba(99,102,241,0.15); color: var(--accent); }
+  @keyframes loader-dot-pulse { 0%,100% { opacity: .3; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.2); } }
+  .seniority-btn { background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s; }
+  .seniority-btn:hover { border-color:var(--accent);color:var(--accent); }
+  .seniority-btn.active { background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600; }
+  .coaching-section { margin-bottom: 24px; }
+  .coaching-section h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .coaching-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 8px;
+    font-size: 14px; line-height: 1.6; color: var(--text);
+  }
+  .coaching-item.positive { border-left: 3px solid var(--green); }
+  .coaching-item.improvement { border-left: 3px solid var(--yellow); }
+
+  /* ── HISTORY SCREEN ── */
+  .history-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 20px; margin-bottom: 12px;
+    cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: space-between;
+  }
+  .history-item:hover { border-color: var(--accent); }
+  .history-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .history-info p { font-size: 13px; color: var(--text2); }
+  .history-meta { text-align: right; }
+  .history-meta .date { font-size: 12px; color: var(--text3); }
+
+  /* ── SETTINGS ── */
+  .api-key-input { font-family: monospace; letter-spacing: 1px; }
+  .settings-section { margin-bottom: 32px; }
+  .settings-section h3 { font-size: 13px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+
+  /* ── MODAL ── */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 500; align-items: center; justify-content: center; padding: 24px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; max-width: 560px; width: 100%; max-height: 80vh; overflow-y: auto; }
+  .modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+  /* ── EMPTY STATE ── */
+  .empty { text-align: center; padding: 60px 20px; color: var(--text2); }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty h3 { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .empty p { font-size: 14px; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+    background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 12px 18px; font-size: 14px; font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    transform: translateY(80px); transition: transform 0.3s;
+  }
+  .toast.show { transform: translateY(0); }
+  .toast.success { border-color: var(--green); color: var(--green); }
+  .toast.error { border-color: var(--red); color: var(--red); }
+
+  /* ── UTILITIES ── */
+  .flex { display: flex; }
+  .flex-center { display: flex; align-items: center; justify-content: center; }
+  .gap-8 { gap: 8px; }
+  .gap-12 { gap: 12px; }
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mb-0 { margin-bottom: 0; }
+  .text-center { text-align: center; }
+  .text-right { text-align: right; }
+  .w-full { width: 100%; }
+  .hidden { display: none !important; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .home-cards { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .content { padding: 24px 16px; }
+  }
+
+  /* ── FILE UPLOAD ── */
+  .file-drop {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 24px; text-align: center; cursor: pointer;
+    transition: all 0.15s; color: var(--text2);
+  }
+  .file-drop:hover { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); }
+  .file-drop.has-file { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+  .file-drop-icon { font-size: 28px; margin-bottom: 8px; }
+  .file-drop-text { font-size: 13px; }
+
+  /* ── PERSONALITY INDICATOR ── */
+  .personality-display {
+    text-align: center; font-size: 13px; font-weight: 600;
+    color: var(--accent); margin-top: 8px; min-height: 20px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN: LOGIN / REGISTER
+═══════════════════════════════════════════════════ -->
+<div id="screen-login" class="screen active">
+  <div id="browser-warning" style="display:none;background:#7a3e00;color:#fde8c8;font-size:13px;line-height:1.5;padding:10px 16px;text-align:center;position:relative;">
+    <strong>Heads up:</strong> You're Hired. uses your microphone via a Chrome/Edge feature that Safari and Firefox don't support yet.
+    For the full voice experience, open this in <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong>.
+    <button onclick="document.getElementById('browser-warning').style.display='none'"
+      style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fde8c8;font-size:18px;cursor:pointer;line-height:1;">×</button>
+  </div>
+  <div class="login-box">
+    <div class="login-logo">You're Hired.</div>
+    <div class="login-tagline">Practice like it's real. Land the job for real.</div>
+
+    <div id="login-error" class="login-error"></div>
+
+    <!-- LOGIN FORM -->
+    <div id="form-login">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="you@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary btn-lg w-full" onclick="doLogin()">Sign In</button>
       <div style="text-align:right;margin-top:8px;margin-bottom:4px;">
         <a onclick="showForgotPassword()" style="font-size:12px;color:var(--text2);cursor:pointer;text-decoration:none;">Forgot your password?</a>
       </div>
