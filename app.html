@@ -2653,15 +2653,25 @@ function loadSettingsForm() {
 }
 
 function renderUsageCard() {
-  const count = DB.getSessions(APP.currentUser?.email || '').length;
+  const email = APP.currentUser?.email || '';
+  const count = DB.getSessions(email).length;
+  const settings = DB.getSettings(email);
+  const isPro = settings.isPro;
   const admin = getAdminSettings();
   const limit = admin.freeLimit || 5;
   const remaining = Math.max(0, limit - count);
-  el('usage-display').innerHTML = `
-    <div>Interviews completed: <strong>${count}</strong></div>
-    <div>Free sessions remaining: <strong style="color:${remaining > 0 ? 'var(--green)' : 'var(--red)'};">${remaining}</strong> of ${limit}</div>
-    ${remaining === 0 ? `<div style="color:var(--yellow);margin-top:4px;">Contact <strong>${admin.contactEmail || 'the app owner'}</strong> to unlock more sessions.</div>` : ''}
-  `;
+  if (isPro) {
+    el('usage-display').innerHTML = `
+      <div>Interviews completed: <strong>${count}</strong></div>
+      <div style="color:var(--green);margin-top:2px;">✓ Pro Member — unlimited interviews</div>
+    `;
+  } else {
+    el('usage-display').innerHTML = `
+      <div>Interviews completed: <strong>${count}</strong></div>
+      <div>Free sessions remaining: <strong style="color:${remaining > 0 ? 'var(--green)' : 'var(--red)'};">${remaining}</strong> of ${limit}</div>
+      ${remaining === 0 ? `<div style="color:var(--yellow);margin-top:4px;">Contact <strong>${admin.contactEmail || 'the app owner'}</strong> to unlock more sessions.</div>` : ''}
+    `;
+  }
 }
 
 // Logo click Easter egg — 5 rapid clicks opens admin modal
