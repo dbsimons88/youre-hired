@@ -27,8 +27,8 @@ exports.handler = async (event) => {
     mode: 'subscription',
     'line_items[0][price]': STRIPE_PRICE_ID,
     'line_items[0][quantity]': '1',
-    success_url: `${APP_URL}?upgrade=success`,
-    cancel_url: APP_URL,
+    success_url: `${APP_URL}/app.html?upgrade=success`,
+    cancel_url: `${APP_URL}/app.html`,
     'subscription_data[metadata][app]': 'smash-the-interview',
   });
 
