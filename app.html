@@ -941,6 +941,11 @@
           <input type="text" id="settings-support-phone" placeholder="(202) 649-0488">
           <p class="form-hint">Shown on the upgrade modal, settings page, and coaching reports.</p>
         </div>
+        <div class="form-group mb-0" style="margin-top:16px;">
+          <label>Permanent Pro Accounts</label>
+          <input type="text" id="settings-pro-emails" placeholder="dan@frg.farm, other@email.com">
+          <p class="form-hint">Comma-separated emails that are always Pro — bypasses Stripe entirely.</p>
+        </div>
       </div>
 
       <div class="settings-section" style="margin-bottom:0;">
@@ -2635,7 +2640,7 @@ function showSessionDetail(id) {
 function getAdminSettings() {
   return DB.get('pw_admin') || {
     anthropicKey: '', elevenlabsKey: '', voiceId: '',
-    freeLimit: 5, contactEmail: '', supportPhone: '(202) 649-0488', adminPassword: 'admin'
+    freeLimit: 5, contactEmail: '', supportPhone: '(202) 649-0488', adminPassword: 'admin', proEmails: ''
   };
 }
 
@@ -2714,6 +2719,7 @@ function unlockAdmin() {
   el('settings-free-limit').value = admin.freeLimit || 5;
   el('settings-contact-email').value = admin.contactEmail || '';
   el('settings-support-phone').value = admin.supportPhone || '(202) 649-0488';
+  el('settings-pro-emails').value = admin.proEmails || '';
   el('settings-admin-pw').value = '';
   toast('Admin panel unlocked', 'success');
 }
@@ -2728,6 +2734,7 @@ function saveAdminSettings() {
     freeLimit: parseInt(el('settings-free-limit').value) || 5,
     contactEmail: el('settings-contact-email').value.trim(),
     supportPhone: el('settings-support-phone').value.trim() || '(202) 649-0488',
+    proEmails: el('settings-pro-emails').value.trim(),
     adminPassword: newPw || existing.adminPassword,
   };
   DB.set('pw_admin', admin);
@@ -3102,6 +3109,15 @@ function toast(msg, type = '') {
 
 async function verifyProStatus(email, showToast) {
   if (!email) return false;
+
+  // Permanent Pro whitelist — bypasses Stripe entirely
+  const proEmails = (getAdminSettings().proEmails || '').split(',').map(e => e.trim().toLowerCase()).filter(Boolean);
+  if (proEmails.includes(email.trim().toLowerCase())) {
+    DB.saveSettings(email, { ...DB.getSettings(email), isPro: true, iProVerifiedAt: Date.now() });
+    if (showToast) toast('🎉 Pro activated — enjoy unlimited interviews!', 'success');
+    return true;
+  }
+
   const settings = DB.getSettings(email);
   const now = Date.now();
   const cacheAge = now - (settings.iProVerifiedAt || 0);
