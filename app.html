@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -486,7 +487,7 @@
 ═══════════════════════════════════════════════════ -->
 <div id="screen-home" class="screen">
   <nav class="nav">
-    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
+    <div class="nav-logo" onclick="handleLogoClick()">You're <span>Hired.</span></div>
     <div class="nav-right">
       <span class="nav-user" id="nav-username"></span>
       <button class="btn btn-primary btn-sm" id="nav-upgrade-btn" onclick="openModal('modal-paywall')" style="display:none;">⚡ Upgrade</button>
@@ -541,7 +542,7 @@
   <nav class="nav">
     <div style="display:flex;align-items:center;gap:16px;">
       <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">🏠 Home</button>
-      <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
+      <div class="nav-logo" onclick="handleLogoClick()">You're <span>Hired.</span></div>
     </div>
     <div class="nav-right"></div>
   </nav>
@@ -750,7 +751,7 @@
 ═══════════════════════════════════════════════════ -->
 <div id="screen-coaching" class="screen">
   <nav class="nav">
-    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
+    <div class="nav-logo" onclick="handleLogoClick()">You're <span>Hired.</span></div>
     <div class="nav-right">
       <button class="btn btn-primary btn-sm" onclick="showScreen('home')">Start New Interview</button>
     </div>
@@ -783,7 +784,7 @@
 ═══════════════════════════════════════════════════ -->
 <div id="screen-history" class="screen">
   <nav class="nav">
-    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
+    <div class="nav-logo" onclick="handleLogoClick()">You're <span>Hired.</span></div>
     <div class="nav-right">
       <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">← Home</button>
     </div>
@@ -801,7 +802,7 @@
 ═══════════════════════════════════════════════════ -->
 <div id="screen-settings" class="screen">
   <nav class="nav">
-    <div class="nav-logo" onclick="showScreen('home')">You're <span>Hired.</span></div>
+    <div class="nav-logo" onclick="handleLogoClick()">You're <span>Hired.</span></div>
     <div class="nav-right">
       <button class="btn btn-ghost btn-sm" onclick="showScreen('home')">← Back</button>
     </div>
@@ -843,87 +844,6 @@
       <div style="font-size:13px;color:var(--text2);line-height:1.7;" id="settings-support-line"></div>
     </div>
 
-    <!-- ADMIN PANEL (hidden behind password) -->
-    <div class="card" style="border-color:var(--border);margin-top:8px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="toggleAdminPanel()">
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">Admin Access</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:2px;">API keys, voice settings, usage limits</div>
-        </div>
-        <span id="admin-toggle-icon" style="color:var(--text3);font-size:18px;">🔒</span>
-      </div>
-
-      <div id="admin-auth-panel" class="hidden" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
-        <div class="form-group mb-0">
-          <label>Admin Password</label>
-          <div style="display:flex;gap:8px;">
-            <input type="password" id="admin-pw-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter') unlockAdmin()">
-            <button class="btn btn-primary btn-sm" onclick="unlockAdmin()">Unlock</button>
-          </div>
-          <p class="form-hint">Contact the site owner if you need admin access.</p>
-        </div>
-      </div>
-
-      <div id="admin-panel" class="hidden" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
-        <div class="settings-section">
-          <h3>API Keys</h3>
-          <div class="form-group">
-            <label>Anthropic API Key</label>
-            <input type="password" id="settings-anthropic-key" class="api-key-input" placeholder="sk-ant-...">
-            <p class="form-hint">Powers the AI interview and coaching. All users share this key — you pay for usage.</p>
-          </div>
-          <div class="form-group mb-0">
-            <label>ElevenLabs API Key</label>
-            <input type="password" id="settings-elevenlabs-key" class="api-key-input" placeholder="...">
-            <p class="form-hint">Powers the interviewer's voice. Leave blank to use browser voice (free but robotic).</p>
-          </div>
-        </div>
-
-        <div class="settings-section">
-          <h3>Voice</h3>
-          <div class="form-group mb-0">
-            <label>ElevenLabs Voice ID Override <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
-            <input type="text" id="settings-voice-id" placeholder="Leave blank to use gender-matched defaults">
-            <p class="form-hint">Overrides the auto-selected voice for all interviewers. Find IDs in ElevenLabs → Voices.</p>
-          </div>
-        </div>
-
-        <div class="settings-section">
-          <h3>Usage Limits</h3>
-          <div class="form-row">
-            <div class="form-group mb-0">
-              <label>Free Interview Limit per User</label>
-              <input type="number" id="settings-free-limit" min="1" max="100" placeholder="e.g. 3">
-              <p class="form-hint">Users see a friendly gate after this many interviews. Set to 999 to disable.</p>
-            </div>
-            <div class="form-group mb-0">
-              <label>Contact Email (shown at paywall)</label>
-              <input type="text" id="settings-contact-email" placeholder="you@email.com">
-              <p class="form-hint">Shown to users when they hit the limit.</p>
-            </div>
-          </div>
-          <div class="form-group mb-0" style="margin-top:16px;">
-            <label>Support Phone Number</label>
-            <input type="text" id="settings-support-phone" placeholder="(202) 649-0488">
-            <p class="form-hint">Shown on the upgrade modal, settings page, and coaching reports. Users can text or call for help.</p>
-          </div>
-        </div>
-
-        <div class="settings-section" style="margin-bottom:0">
-          <h3>Admin Password</h3>
-          <div class="form-group mb-0">
-            <label>Change Admin Password</label>
-            <input type="password" id="settings-admin-pw" placeholder="New password">
-            <p class="form-hint">Protects these settings from regular users.</p>
-          </div>
-        </div>
-
-        <div style="display:flex;gap:12px;margin-top:20px;">
-          <button class="btn btn-primary" onclick="saveAdminSettings()">Save Admin Settings</button>
-          <button class="btn btn-danger btn-sm" onclick="clearAllData()">Clear All Data</button>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -953,6 +873,89 @@
     <p style="font-size:12px;color:var(--text3);margin-top:10px;margin-bottom:4px;">Secure checkout via Stripe · your card info is never stored here</p>
     <button class="btn btn-ghost btn-sm" style="margin-top:4px;" onclick="closeModal('modal-paywall')">Maybe later</button>
     <p id="paywall-support-line" style="font-size:12px;color:var(--text3);margin-top:14px;margin-bottom:0;"></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL: ADMIN (secret — logo × 5)
+═══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-admin">
+  <div class="modal" style="max-width:520px;text-align:left;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <h3 style="margin:0;">Admin Settings</h3>
+      <button onclick="closeModal('modal-admin')" style="background:none;border:none;color:var(--text3);font-size:22px;cursor:pointer;line-height:1;">×</button>
+    </div>
+
+    <!-- Auth gate -->
+    <div id="admin-modal-auth">
+      <div class="form-group mb-0">
+        <label>Admin Password</label>
+        <div style="display:flex;gap:8px;">
+          <input type="password" id="admin-pw-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter') unlockAdmin()">
+          <button class="btn btn-primary btn-sm" onclick="unlockAdmin()">Unlock</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin panel (shown after unlock) -->
+    <div id="admin-modal-panel" class="hidden">
+      <div class="settings-section">
+        <h3>API Keys</h3>
+        <div class="form-group">
+          <label>Anthropic API Key</label>
+          <input type="password" id="settings-anthropic-key" class="api-key-input" placeholder="sk-ant-...">
+          <p class="form-hint">Powers the AI interview and coaching. All users share this key — you pay for usage.</p>
+        </div>
+        <div class="form-group mb-0">
+          <label>ElevenLabs API Key</label>
+          <input type="password" id="settings-elevenlabs-key" class="api-key-input" placeholder="...">
+          <p class="form-hint">Powers the interviewer's voice. Leave blank to use browser voice (free but robotic).</p>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Voice</h3>
+        <div class="form-group mb-0">
+          <label>ElevenLabs Voice ID Override <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+          <input type="text" id="settings-voice-id" placeholder="Leave blank to use gender-matched defaults">
+          <p class="form-hint">Overrides the auto-selected voice for all interviewers. Find IDs in ElevenLabs → Voices.</p>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Usage Limits</h3>
+        <div class="form-row">
+          <div class="form-group mb-0">
+            <label>Free Interview Limit per User</label>
+            <input type="number" id="settings-free-limit" min="1" max="100" placeholder="e.g. 3">
+            <p class="form-hint">Users see a friendly gate after this many interviews. Set to 999 to disable.</p>
+          </div>
+          <div class="form-group mb-0">
+            <label>Contact Email (shown at paywall)</label>
+            <input type="text" id="settings-contact-email" placeholder="you@email.com">
+            <p class="form-hint">Shown to users when they hit the limit.</p>
+          </div>
+        </div>
+        <div class="form-group mb-0" style="margin-top:16px;">
+          <label>Support Phone Number</label>
+          <input type="text" id="settings-support-phone" placeholder="(202) 649-0488">
+          <p class="form-hint">Shown on the upgrade modal, settings page, and coaching reports.</p>
+        </div>
+      </div>
+
+      <div class="settings-section" style="margin-bottom:0;">
+        <h3>Admin Password</h3>
+        <div class="form-group mb-0">
+          <label>Change Admin Password</label>
+          <input type="password" id="settings-admin-pw" placeholder="New password (leave blank to keep current)">
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:20px;">
+        <button class="btn btn-primary" onclick="saveAdminSettings()">Save Settings</button>
+        <button class="btn btn-danger btn-sm" onclick="clearAllData()">Clear All Data</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2661,19 +2664,27 @@ function renderUsageCard() {
   `;
 }
 
-function toggleAdminPanel() {
-  const auth = el('admin-auth-panel');
-  const panel = el('admin-panel');
-  if (!panel.classList.contains('hidden')) {
-    // collapse
-    panel.classList.add('hidden');
-    auth.classList.add('hidden');
-    el('admin-toggle-icon').textContent = '🔒';
+// Logo click Easter egg — 5 rapid clicks opens admin modal
+let _logoClickCount = 0, _logoClickTimer = null;
+function handleLogoClick() {
+  showScreen('home');
+  _logoClickCount++;
+  clearTimeout(_logoClickTimer);
+  if (_logoClickCount >= 5) {
+    _logoClickCount = 0;
+    openAdminModal();
   } else {
-    auth.classList.remove('hidden');
-    el('admin-toggle-icon').textContent = '🔓';
-    setTimeout(() => el('admin-pw-input').focus(), 50);
+    _logoClickTimer = setTimeout(() => { _logoClickCount = 0; }, 2000);
   }
+}
+
+function openAdminModal() {
+  // Reset to auth gate every time modal opens
+  el('admin-modal-auth').classList.remove('hidden');
+  el('admin-modal-panel').classList.add('hidden');
+  el('admin-pw-input').value = '';
+  openModal('modal-admin');
+  setTimeout(() => el('admin-pw-input').focus(), 100);
 }
 
 function unlockAdmin() {
@@ -2684,9 +2695,9 @@ function unlockAdmin() {
     el('admin-pw-input').value = '';
     return;
   }
-  el('admin-auth-panel').classList.add('hidden');
-  el('admin-panel').classList.remove('hidden');
-  // Populate admin fields
+  el('admin-modal-auth').classList.add('hidden');
+  el('admin-modal-panel').classList.remove('hidden');
+  // Populate fields
   el('settings-anthropic-key').value = admin.anthropicKey || '';
   el('settings-elevenlabs-key').value = admin.elevenlabsKey || '';
   el('settings-voice-id').value = admin.voiceId || '';
@@ -3118,16 +3129,25 @@ async function handleUpgrade() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: APP.currentUser?.email }),
     });
-    const data = await res.json();
+    let data = {};
+    try { data = await res.json(); } catch { /* non-JSON response */ }
+    console.log('stripe-checkout response:', res.status, data);
     if (data.url) {
       window.location.href = data.url;
-    } else {
-      throw new Error('No checkout URL returned');
+      return;
     }
-  } catch {
+    // Surface the real server error so it can be debugged
+    const serverMsg = data.error || (res.ok ? 'no-url' : `http-${res.status}`);
+    throw new Error(serverMsg);
+  } catch (err) {
+    console.error('handleUpgrade error:', err.message);
     btn.textContent = 'Upgrade to Pro';
     btn.disabled = false;
-    toast('Something went wrong starting checkout. Please try again.', 'error');
+    const friendly = {
+      'payment-not-configured': 'Payment is not yet set up. Please contact support.',
+      'no-url': 'Checkout session did not return a URL. Please try again.',
+    }[err.message] || `Checkout error: ${err.message}. Please try again or text us at ${getSupportPhone()}.`;
+    toast(friendly, 'error');
   }
 }
 
