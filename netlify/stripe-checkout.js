@@ -8,7 +8,7 @@ exports.handler = async (event) => {
 
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
   const STRIPE_PRICE_ID = process.env.STRIPE_PRICE_ID;
-  const APP_URL = process.env.APP_URL || 'https://smashtheinterview.com';
+  const APP_URL = process.env.APP_URL || 'https://youre-hired.netlify.app';
 
   if (!STRIPE_SECRET_KEY || !STRIPE_PRICE_ID) {
     console.error('stripe-checkout: missing env vars STRIPE_SECRET_KEY or STRIPE_PRICE_ID');
@@ -29,7 +29,7 @@ exports.handler = async (event) => {
     'line_items[0][quantity]': '1',
     success_url: `${APP_URL}/app.html?upgrade=success`,
     cancel_url: `${APP_URL}/app.html`,
-    'subscription_data[metadata][app]': 'smash-the-interview',
+    'subscription_data[metadata][app]': 'youre-hired',
   });
 
   if (email) {
